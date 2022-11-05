@@ -30,14 +30,12 @@ def getList(db: Session = Depends(get_db) ):
         data = i.find("a")
         image = i.find("img")
         item["product"] = data["data-name"] 
-            "price" : data["data-price"] ,
-                    #  "link" : data["href"] })
+        item["price"]   = data["data-price"] 
+        item["link"] =  data["href"] 
         if "-src" in str(image):
-            item.append({"image" : image["data-src"]})
+            item["image"] = image["data-src"]
         else:
-            item.append({"image" : image["src"]})
-
-        print(item)
+            item["image"] = image["src"]
+        print("item" ,item)
         # data = cruds.product.create(db , item)
-    print(data)
     return test
