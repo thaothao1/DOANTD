@@ -4,7 +4,7 @@ from cruds.base import CRUDBase
 from utils.auth_utils import Auth
 from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
-from web.chemas.label import LabelUpdate ,LabelCreate
+from chemas.label import LabelUpdate ,LabelCreate
 from models.label import Label
 class CRUDProvince(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
 

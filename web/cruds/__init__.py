@@ -1,8 +1,8 @@
 from .districts import districts
 from .province import province
-from .village import village
-from .label import label
+from .village import Village
+from .label import Label
 from .product import product
-from .shop import shop
-from .category import category
+# from .shop import shop
+# from .category import category
 

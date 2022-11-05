@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-
-from webss.web.models.village import Village
+from models.village import Village
 
 class LabelBase(BaseModel):
 

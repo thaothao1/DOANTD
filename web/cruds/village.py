@@ -4,7 +4,7 @@ from cruds.base import CRUDBase
 from utils.auth_utils import Auth
 from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
-from web.chemas.village import VillageCreate , VillageUpdate
+from chemas.village import VillageCreate , VillageUpdate
 from models.village import Village
 class CRUDProvince(CRUDBase[ Village , VillageCreate , VillageUpdate ]):
 

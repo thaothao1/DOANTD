@@ -5,10 +5,10 @@ from cruds.base import CRUDBase
 from utils.auth_utils import Auth
 from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
-from web.chemas.product import ProductCreate , ProductUpdate
+from chemas.product import ProductCreate , ProductUpdate
 from models.product import Product
 
-class CRUDProvince(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
+class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
 
     def create(self, db: Session , obj_in : ProductCreate ) -> Product:
         auth_handler = Auth()
@@ -39,3 +39,6 @@ class CRUDProvince(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
         data = db.query(Product).filter(Product.id == productId ).one_or_none()
         data.delete()
         db.commit()
+
+
+product =CRUDProduct(Product)

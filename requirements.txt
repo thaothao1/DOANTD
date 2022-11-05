@@ -1,2 +1,6 @@
 sqlalchemy
 databases
+random-user-agent
+requests
+lxml
+bs4

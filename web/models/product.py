@@ -2,7 +2,7 @@ from cgi import print_exception
 from itertools import product
 from sqlalchemy import Column , Integer , String , ForeignKey
 from sqlalchemy.orm import relationship
-from web.db.base_class import TimestampMixin , Base
+from db.base_class import TimestampMixin , Base
 
 
 class Product( Base , TimestampMixin):
