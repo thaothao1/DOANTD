@@ -119,6 +119,3 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
         actions = ActionChains(driver)
 
     return True
-
-
-

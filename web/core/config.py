@@ -25,12 +25,21 @@ class Settings(BaseSettings):
 
     HOST_WEBAPP = "localhost"
     PORT_WEBAPP = "8000"
+<<<<<<< HEAD
     APP_NAME = "price_comparing"
     DATABASE_DB = "price_comparing"
     DATABASE_HOST = "localhost"
     DATABASE_PASSWORD = "thudieu2708"
     DATABASE_USER = "postgres"
     SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:thaothao123@localhost:5432/FastApiSS"
+=======
+    APP_NAME = "project_pricoming"
+    DATABASE_DB = "project_pricoming"
+    DATABASE_HOST = "localhost"
+    DATABASE_PASSWORD = "thudieu2708"
+    DATABASE_USER = "postgres"
+    SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:thudieu2708@localhost:5432/project_pricoming"
+>>>>>>> update code: shoppe, lazada
     FIRST_SUPERUSER: EmailStr = "admin@recipeapi.com"
 
     class Config:
