@@ -25,10 +25,10 @@ class Settings(BaseSettings):
 
     HOST_WEBAPP = "localhost"
     PORT_WEBAPP = "8000"
-    APP_NAME = "webss"
-    DATABASE_DB = "webss"
+    APP_NAME = "project_pricoming"
+    DATABASE_DB = "project_pricoming"
     DATABASE_HOST = "localhost"
-    DATABASE_PASSWORD = "thaothao123"
+    DATABASE_PASSWORD = "thudieu2708"
     DATABASE_USER = "postgres"
     SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:thaothao123@localhost:5432/FastApiSS"
     FIRST_SUPERUSER: EmailStr = "admin@recipeapi.com"

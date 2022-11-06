@@ -27,66 +27,24 @@ while True:
     except:
         break
 
-links = driver.find_elements(By.XPATH , '//ul[@class="listproduct"]/li/a[@class="main-contain"]')
-
-listDict = []
-
-for link in links:
-
-    href = 'window.open("' + link.get_attribute("href") + '","_blank");'
-    driver.execute_script(href)
-    time.sleep(2)
-
-    try:
-        driver.switch_to.window(driver.window_handles[-1])
-        actions =  ActionChains(driver)
-        time.sleep(2)
-
-        name = driver.find_element(By.XPATH , '//section[@class = "detail "]/h1').get_attribute("textContent")
-        # print("DIEU123 : ", name)
-
-        ratting = "0.0"
-        ratting_total = None
-        
-        try:
-            ratting = driver.find_elements(By.XPATH , '//div[@class="box02"]/div/div/p[not(@class)]/i[@class="icondetail-star"]') 
-            # print("hello : ", len(ratting))
-        except Exception:
-            ratting = 0
-        
-        try:
-            ratting_total = driver.find_element(By.XPATH , '//div[@class="box02"]/div/div/p[@class="detail-rate-total"]').get_attribute("textContent")
-            # print("xinchao : ", ratting_total)
-        except Exception:
-            ratting_total = 0
-
-        img = driver.find_element(By.XPATH, '//div[@class="owl-item active"]/a/img').get_attribute("src")
-        print("hinhanh : ", img)
-
-        price_present = driver.find_element(By.XPATH, '//p[@class="box-price-present"]').get_attribute("textContent")
-        priceSale = price_present.split('*')[0]
-        try:
-            price = driver.find_element(By.XPATH, '//p[@class="box-price-old"]').get_attribute("textContent")
-        except Exception:
-            price = "Không giảm"
-        # print("price1 : ", priceSale)
-        # print("DieuPrice : ", price)
-
-        listDict.append({
-          'name' : name.strip(),
-          'link' : str(driver.current_url).strip(),
-          'image' : img,
-          'priceSale' : priceSale,
-          'price' : price,
-          'rating' : len(ratting)
-        })
-        print(len(listDict))
-    except Exception as e:
-        print(e)
-        print('error link: {}'.format(driver.current_url))
-    driver.close()
-    driver.switch_to.window(driver.window_handles[0])
-    actions = ActionChains(driver)
-    
-
-        
+@app.post("/project")
+def getList(db: Session = Depends(get_db) ):
+    codeHTML = CodeHTML("https://www.thegioididong.com/dtdd")
+    htmlTest = codeHTML.beautifulSoup()
+    name = htmlTest.findAll("li" , class_="item ajaxed __cate_42")
+    test = []
+    data_id = []
+    for i in name:
+        item={}
+        data = i.find("a")
+        image = i.find("img")
+        item["product"] = data["data-name"] 
+        item["price"]   = data["data-price"] 
+        item["link"] =  data["href"] 
+        if "-src" in str(image):
+            item["image"] = image["data-src"]
+        else:
+            item["image"] = image["src"]
+        test.append(item)
+        # data = cruds.product.create(db , item)
+    return test
