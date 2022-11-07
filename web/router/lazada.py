@@ -15,7 +15,6 @@ from models.shop import Shop
 from router.utils import custom_reponse
 from sqlalchemy.orm import Session
 from db.get_db import get_db
-
 from models.product import Product
 
 
