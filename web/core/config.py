@@ -25,8 +25,8 @@ class Settings(BaseSettings):
 
     HOST_WEBAPP = "localhost"
     PORT_WEBAPP = "8000"
-    APP_NAME = "project_pricoming"
-    DATABASE_DB = "project_pricoming"
+    APP_NAME = "price_comparing"
+    DATABASE_DB = "price_comparing"
     DATABASE_HOST = "localhost"
     DATABASE_PASSWORD = "thudieu2708"
     DATABASE_USER = "postgres"

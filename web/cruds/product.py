@@ -28,6 +28,8 @@ class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
                 size = obj_in.size,
                 description = obj_in.description,
                 quantity = obj_in.quantity,
+                # id_district = obj_in.id_district,
+                # labelId = obj_in.labelId,
         )
         db.add(db_obj)
         db.commit()

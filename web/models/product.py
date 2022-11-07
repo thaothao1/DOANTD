@@ -14,8 +14,3 @@ class Product( Base , TimestampMixin):
     priceSale = Column(String(1150))
     rating = Column(String(1000))
     shopId = Column()
-
-
-
-
-    

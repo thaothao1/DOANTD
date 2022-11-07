@@ -14,6 +14,7 @@ from router.utils import custom_reponse
 from sqlalchemy.orm import Session
 from db.get_db import get_db
 from chemas.district import DistrictCreate, DistrictUpdate
+from models.product import Product
 
 
 app = APIRouter()
@@ -29,18 +30,39 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
     data = json.loads(response.text)
     data = data["mods"]["listItems"]
     list_data = []
-    for item in data:
-        text = {
-            "name" : item['name'],
-            "image" : item['image'],
-            "price" : item['originalPriceShow'],
-            "price_old" : item['priceShow'],
-            "rating" : item['ratingScore'],
-            "location" : item['location'],
-            # "color" : item['color'],
-            # "link" : "https://www.lazada.vn/{}".format(item['thumbs'])
-        }
-        list_data.append(text)
-        # data = cruds.product.create(db , text)
-    return list_data
     
+    for item in data:
+        thumbs = item["thumbs"]
+        for index in thumbs:
+            _link = "https://www.lazada.vn/{}".format(index['itemUrl'])
+        product = item['name']
+        link = _link
+        image = item['image']
+        price = item['priceShow']
+        priceSale = item['priceShow']
+        color = "Black"
+        size = "16GB"
+        description = item['location']
+        quantity = 2708
+
+        product = Product(
+            product =  product,
+            link = link,
+            image = image ,
+            price = price,
+            priceSale = priceSale,
+            color = color,
+            size = size,
+            description = description,
+            quantity = quantity
+        )
+        # product = {
+        #      "name" : item['name'],
+        #     "image" : item['image'],
+        #     "price" : item['priceShow'],
+        #     "priceSale" : item['priceShow'],
+        #     "location" : item['location'],
+        # }
+        # print(product)
+        _data = cruds.product.create(db , product)
+    return _data

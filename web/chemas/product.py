@@ -13,6 +13,8 @@ class ProductBase(BaseModel):
     size : Optional[str]
     description : Optional[str]
     quantity : Optional[int]
+    # id_district : Optional[int]
+    # labelId : Optional[int]
 
 class ProductInDBBase(ProductBase):
     class Config:
@@ -28,7 +30,8 @@ class ProductCreate(ProductBase):
     size : str
     description : str
     quantity :  int
-
+    # id_district : int
+    # labelId : int
 
 class ProductUpdate(ProductBase):
     product : str
@@ -40,3 +43,5 @@ class ProductUpdate(ProductBase):
     size : str
     description : str
     quantity :  int
+    # id_district : int
+    # labelId : int
