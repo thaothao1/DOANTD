@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
 from chemas.village import VillageCreate , VillageUpdate
 from models.village import Village
+
 class CRUDProvince(CRUDBase[ Village , VillageCreate , VillageUpdate ]):
 
     def create(self, db: Session , obj_in : VillageCreate) -> Village:

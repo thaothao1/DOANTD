@@ -16,7 +16,6 @@ class CRUDProvince(CRUDBase[ Province ,  ProvinceCreate , ProvinceUpdate  ]):
         db_obj = Province( 
                 province = obj_in.province
         )
-        print(db_obj)
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

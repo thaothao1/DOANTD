@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     DATABASE_HOST = "localhost"
     DATABASE_PASSWORD = "thaothao123"
     DATABASE_USER = "postgres"
-    SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:thaothao123@localhost:5432/AppWeb"
+    SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:thaothao123@localhost:5432/FastApiSS"
     FIRST_SUPERUSER: EmailStr = "admin@recipeapi.com"
 
     class Config:

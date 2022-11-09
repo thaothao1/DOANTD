@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 class ProductBase(BaseModel):
-
+    
     id : Optional[int]
     product : Optional[str]
     link : Optional[str]
@@ -13,15 +13,12 @@ class ProductBase(BaseModel):
     size : Optional[str]
     description : Optional[str]
     quantity : Optional[int]
-    id_district : Optional[int]
-    labelId : Optional[int]
 
 class ProductInDBBase(ProductBase):
     class Config:
         orm_model = True
 
 class ProductCreate(ProductBase):
-    id : int
     product : str
     link : str
     image : str
@@ -31,11 +28,9 @@ class ProductCreate(ProductBase):
     size : str
     description : str
     quantity :  int
-    id_district : int
-    labelId : int
+
 
 class ProductUpdate(ProductBase):
-    id : int
     product : str
     link : str
     image : str
@@ -45,5 +40,3 @@ class ProductUpdate(ProductBase):
     size : str
     description : str
     quantity :  int
-    id_district : int
-    labelId : int

@@ -23,7 +23,6 @@ def get_list_province(skip: int  = 0, limit: int = 100 , db : Session = Depends(
 
 @app.post("/province")
 def createProvince( body : ProvinceCreate , db: Session = Depends(get_db)):
-    print("thao")
     data = cruds.province.create(db , body) 
     return custom_reponse(http_status=200 , data= data)
 
