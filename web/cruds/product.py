@@ -27,7 +27,7 @@ class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
                 color = obj_in.color,
                 size = obj_in.size,
                 description = obj_in.description,
-                quantity = obj_in.quantity,
+                 = obj_in.quantity,
                 # id_district = obj_in.id_district,
                 # labelId = obj_in.labelId,
         )
