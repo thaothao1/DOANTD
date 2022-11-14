@@ -4,3 +4,9 @@ random-user-agent
 requests
 lxml
 bs4
+fastapi
+passlib
+jwt
+uvicorn
+Jinja2
+selenium

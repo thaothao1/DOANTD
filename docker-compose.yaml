@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:14.0-alpine
+    container_name: core_db
+    restart: always
+    environment:
+      - POSTGRES_DB= pricecompering
+      - POSTGRES_USER= postgres
+      - POSTGRES_PASSWORD= ThaoDieu@123
+    volumes:
+      - /tmp/pgsql:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  webserver:
+    build:
+      context: .
+    restart: unless-stopped
+    container_name: backend
+    volumes:
+      - ./:/backend
+    ports:
+      - 8888:8000
+    command: bash -c "python main.py"
+    env_file: .env
+    depends_on:
+      - db
+
+  # nginx:
+  #   container_name: gconnect_nginx
+  #   build: ./nginx
+  #   volumes:
+  #     - ./media:/media/media
+  #   ports:
+  #     - 8001:80
+  #   depends_on:
+  #     - webserver

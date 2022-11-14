@@ -12,10 +12,9 @@ class Product( Base , TimestampMixin):
     image = Column(String(5000))
     price =Column(String(1150))
     priceSale = Column(String(1150))
-    color  = Column(String(1150))
-    size = Column( String(1150) )
-    description = Column(String(1150))
-    quantity = Column(Integer)
+    rating = Column(String(1000))
+    shopId = Column()
+
 
 
 
