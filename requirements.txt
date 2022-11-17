@@ -12,3 +12,4 @@ passlib
 pydantic[email]
 psycopg2
 Jinja2
+alembic

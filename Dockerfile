@@ -1,11 +1,17 @@
-FROM python:3.10
-ENV PYTHONUNBUFFERED=1
+# 
+FROM python:3.9
 
-WORKDIR /web
-COPY requirements.txt /web/
+# 
+WORKDIR /code
 
-RUN python3.10 -m pip install --upgrade pip
-RUN pip install -U pip
-RUN pip install -r requirements.txt
+# 
+COPY ./requirements.txt /code/requirements.txt
 
-COPY . /web/
+# 
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# 
+COPY ./app /code/app
+
+# 
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]

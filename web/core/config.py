@@ -28,9 +28,10 @@ class Settings(BaseSettings):
     APP_NAME = "price_comparing"
     DATABASE_DB = "price_comparing"
     DATABASE_HOST = "localhost"
-    DATABASE_PASSWORD = "thudieu2708"
+    DATABASE_PASSWORD = "postgres"
     DATABASE_USER = "postgres"
-    SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:thaothao123@localhost:5432/FastApiSS"
+    SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:postgres@postgres/price"
+    FIRST_SUPERUSER: EmailStr = "admin@recipeapi.com"
 
     class Config:
         case_sensitive = True
