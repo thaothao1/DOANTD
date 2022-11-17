@@ -1,11 +1,11 @@
-FROM python:3.6
+FROM python:3.10
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /backend
-COPY requirements.txt /backend/
+WORKDIR /web
+COPY requirements.txt /web/
 
-RUN apt-get update && apt-get install -y python3-pip postgresql
+RUN python3.10 -m pip install --upgrade pip
 RUN pip install -U pip
 RUN pip install -r requirements.txt
 
-COPY . /backend/
+COPY . /web/

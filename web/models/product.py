@@ -7,10 +7,13 @@ class Product( Base , TimestampMixin):
     __tablename__ = "products"
 
     id = Column(Integer , primary_key = True , index = True , autoincrement = True)
-    product = Column(String(1150))
+    name = Column(String(1150))
     link = Column(String(2150))
     image = Column(String(5000))
     price =Column(String(1150))
     priceSale = Column(String(1150))
     rating = Column(String(1000))
-    shopId = Column()
+    shopId = Column(Integer() , ForeignKey("shops.id"))
+
+
+

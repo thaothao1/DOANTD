@@ -1,30 +1,32 @@
-version: "3.3"
+version: "3.7"
 services:
-  db:
-    image: postgres:14.0-alpine
-    container_name: core_db
+  postgres:
+    image: postgres:10.5
     restart: always
     environment:
-      - POSTGRES_DB=pricecompering
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=ThaoDieu@123
-    volumes:
-      - /tmp/pgsql:/var/lib/postgresql/data
+      - POSTGRES_PASSWORD=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
     ports:
-      - 5432:5432
+      - '5438:5432'
+    volumes: 
+      - ./postgres-data:/var/lib/postgresql/data
 
   webserver:
     build: .
     restart: unless-stopped
     container_name: backend
     volumes:
-      - ./:/backend
+      - ./:/web
     ports:
       - 8888:8000
     command: bash -c "python web/main.py"
     env_file: .env
     depends_on:
-      - db
+      - postgres
 
   # nginx:
   #   container_name: gconnect_nginx

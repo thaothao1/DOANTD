@@ -10,26 +10,25 @@ from models.product import Product
 
 class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
 
-    def getById(self, db: Session , productId : str )->Optional[Product]:
-        return db.query(Product).filter(Product.id == productId).one_or_none()
+    def getById(self, db: Session , id : str )->Optional[Product]:
+        return db.query(Product).filter(Product.id == id).one_or_none()
 
     def getByName(self, db: Session , name : str )->Optional[Product]:
-        return db.query(Product).filter(Product.product == name).one_or_none()
+        return db.query(Product).filter(Product.name == name).one_or_none()
+
+    def getManyDataByShopId(self, db: Session , shop : int )->Optional[Product]:
+        return db.query(Product).filter(Product.shopId == shop).all()
 
     def create(self, db: Session , obj_in : ProductCreate ) -> Product:
         auth_handler = Auth()
         db_obj = Product(
-                product = obj_in.product,
+                name = obj_in.name ,
                 link = obj_in.link,
                 image = obj_in.image ,
                 price = obj_in.price,
                 priceSale = obj_in.priceSale,
-                color = obj_in.color,
-                size = obj_in.size,
-                description = obj_in.description,
-                quantity = obj_in.quantity,
-                # id_district = obj_in.id_district,
-                # labelId = obj_in.labelId,
+                rating = obj_in.rating,
+                shopId = obj_in.shopId,
         )
         db.add(db_obj)
         db.commit()

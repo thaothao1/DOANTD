@@ -6,14 +6,19 @@ from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
 from chemas.label import LabelUpdate ,LabelCreate
 from models.label import Label
-class CRUDProvince(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
+
+class CRUDLabel(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
+
+    def getById(self, db: Session , id : str )->Optional[Label]:
+        return db.query(Label).filter(Label.id == id).one_or_none()
+
+    def getByName(self, db: Session , name : str )->Optional[Label]:
+        return db.query(Label).filter(Label.name == name).one_or_none()
 
     def create(self, db: Session , obj_in : LabelCreate) -> Label:
         auth_handler = Auth()
         db_obj = Label( 
-                label = obj_in.label,
-                link = obj_in.link,
-                categoryId = obj_in.categoryId
+                name = obj_in.name,
         )
         db.add(db_obj)
         db.commit()
@@ -30,3 +35,6 @@ class CRUDProvince(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
         data = db.query(Label).filter(Label.id == labelId).one_or_none()
         data.delete()
         db.commit()
+        return data
+
+label =CRUDLabel(Label)   
