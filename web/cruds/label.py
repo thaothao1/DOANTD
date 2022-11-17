@@ -1,7 +1,6 @@
 from distutils.sysconfig import get_python_lib
 from unicodedata import category
 from cruds.base import CRUDBase
-from utils.auth_utils import Auth
 from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
 from chemas.label import LabelUpdate ,LabelCreate
@@ -16,7 +15,6 @@ class CRUDLabel(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
         return db.query(Label).filter(Label.name == name).one_or_none()
 
     def create(self, db: Session , obj_in : LabelCreate) -> Label:
-        auth_handler = Auth()
         db_obj = Label( 
                 name = obj_in.name,
         )

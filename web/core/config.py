@@ -1,17 +1,13 @@
 import os
 import pathlib
 from tkinter  import FIRST
-from pydantic import AnyHttpUrl , BaseSettings , EmailStr , validator
+from pydantic import AnyHttpUrl , BaseSettings , validator
 from typing import List  , Optional , Union
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 class Settings(BaseSettings):
     API_V1_STR : str = "api/v1"
-
-
-    JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY","dab99f4793ee51e1757d705cf73562d48b6783442994b7657b5b72865b93c1e7")
-    JWT_TOKEN_EXPIRES_MINUTES = int(os.environ.get("JWT_TOKEN_EXPIRES_MINUTES",30))
 
     BACKEND_CORS_ORIGINS : List[AnyHttpUrl] =[]
 
@@ -25,13 +21,12 @@ class Settings(BaseSettings):
 
     HOST_WEBAPP = "localhost"
     PORT_WEBAPP = "8000"
-    APP_NAME = "price_comparing"
-    DATABASE_DB = "price_comparing"
+    APP_NAME = "price"
+    DATABASE_DB = "price"
     DATABASE_HOST = "localhost"
     DATABASE_PASSWORD = "postgres"
     DATABASE_USER = "postgres"
     SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:postgres@postgres/price"
-    FIRST_SUPERUSER: EmailStr = "admin@recipeapi.com"
 
     class Config:
         case_sensitive = True
