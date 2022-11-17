@@ -5,10 +5,9 @@ from fastapi.encoders import jsonable_encoder
 from cruds.base import CRUDBase
 from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
-from web.chemas.shop import ShopCreate , ShopUpdate
+from chemas.shop import ShopCreate , ShopUpdate
 from models.shop import Shop
 from sqlalchemy.orm import Session
-from utils.auth_utils import Auth
 
 from chemas.shop import ShopCreate, ShopUpdate
 

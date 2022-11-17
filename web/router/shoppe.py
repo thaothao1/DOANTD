@@ -1,6 +1,5 @@
 import json
 import requests
-# from msilib.schema import Class
 from multiprocessing.dummy import Array
 from traceback import print_tb
 from turtle import title
