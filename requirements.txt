@@ -5,12 +5,10 @@ requests
 lxml
 bs4
 selenium
-uvicorn
-fastapi
-jwt
 passlib
-pydantic[email]
 psycopg2
 Jinja2
-fastapi-pagination
-fastapi-pagination[all]
+alembic
+fastapi>=0.68.0,<0.69.0
+pydantic>=1.8.0,<2.0.0
+uvicorn>=0.15.0,<0.16.0

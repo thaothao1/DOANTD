@@ -19,3 +19,4 @@ api.include_router(fptshop.app , tags=["fpt"] , prefix = "/api")
 api.include_router(api_app.app , tags = ["api_web"] , prefix = "/api")
 api.include_router(label.app , tags=["label"] , prefix = "/api")
 api.include_router(test.app , tags = ["test"] , prefix = "/api")
+

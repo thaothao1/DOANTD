@@ -3,9 +3,11 @@ from typing import Any, Dict, List, Optional, Union
 from unicodedata import category
 from fastapi.encoders import jsonable_encoder
 from cruds.base import CRUDBase
+from sqlalchemy.orm import Session
+from typing import Any, Dict, Optional, Union , List
+from chemas.shop import ShopCreate , ShopUpdate
 from models.shop import Shop
 from sqlalchemy.orm import Session
-from utils.auth_utils import Auth
 
 from chemas.shop import ShopCreate, ShopUpdate
 
@@ -22,7 +24,6 @@ class CRUDShop(CRUDBase[ Shop , ShopCreate , ShopUpdate ]):
         return db.query(Shop).filter(Shop.id == id).one_or_none()
 
     def create(self, db: Session , obj_in : ShopCreate) -> Shop:
-        auth_handler = Auth()
         db_obj = Shop( 
                 name = obj_in.name,
                 link = obj_in.link,

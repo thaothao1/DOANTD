@@ -1,7 +1,6 @@
 from distutils.sysconfig import get_python_lib
 from unicodedata import category
 from cruds.base import CRUDBase
-from utils.auth_utils import Auth
 from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
 from chemas.label import LabelUpdate ,LabelCreate

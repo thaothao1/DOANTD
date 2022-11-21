@@ -23,7 +23,7 @@ current_dir = os.getcwd()
 sys.path.append(current_dir)
 
 
-from web.db.base import Base  # noqa
+from db.base import Base  # noqa
 from web.core.config import settings
 
 target_metadata = Base.metadata

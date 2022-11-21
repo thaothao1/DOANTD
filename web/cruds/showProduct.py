@@ -6,7 +6,6 @@ from fastapi.encoders import jsonable_encoder
 from models.showProduct import ShowProduct
 from cruds.base import CRUDBase
 from sqlalchemy.orm import Session
-from utils.auth_utils import Auth
 from chemas.showProduct import ShowProductCreate, ShowProductUpdate
 
 
@@ -19,7 +18,6 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
         return db.query(ShowProduct).filter(ShowProduct.name == name).one_or_none()
 
     def create(self, db: Session , obj_in : ShowProductCreate ) -> ShowProduct:
-        auth_handler = Auth()
         db_obj = ShowProduct(
             name = obj_in.name,
             price = obj_in.price,

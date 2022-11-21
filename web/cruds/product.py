@@ -2,7 +2,6 @@ from cProfile import label
 from distutils.sysconfig import get_python_lib
 from unicodedata import category
 from cruds.base import CRUDBase
-from utils.auth_utils import Auth
 from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
 from chemas.product import ProductCreate , ProductUpdate
@@ -27,9 +26,8 @@ class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
         return db.query(Product).filter(Product.shopId == shop and Product.labelId == labelId).all()
 
     def create(self, db: Session , obj_in : ProductCreate ) -> Product:
-        auth_handler = Auth()
-        db_obj = Product(
-                name = obj_in.name ,
+        db_obj = Product( 
+                product = obj_in.product,
                 link = obj_in.link,
                 image = obj_in.image ,
                 price = obj_in.price,

@@ -15,6 +15,3 @@ class Product( Base , TimestampMixin):
     rating = Column(String(1000))
     shopId = Column(Integer() , ForeignKey("shops.id"))
     labelId = Column(Integer() , ForeignKey("labels.id"), nullable= True)
-
-
-
