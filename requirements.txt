@@ -12,3 +12,5 @@ passlib
 pydantic[email]
 psycopg2
 Jinja2
+fastapi-pagination
+fastapi-pagination[all]

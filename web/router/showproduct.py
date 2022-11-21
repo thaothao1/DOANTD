@@ -4,7 +4,6 @@ from multiprocessing.dummy import Array
 from traceback import print_tb
 from turtle import title
 from typing import Optional
-from base.CodeHTML import CodeHTML
 from re import template
 from fastapi import APIRouter , Request , Depends ,HTTPException
 from fastapi.templating import Jinja2Templates
@@ -16,7 +15,6 @@ import cruds
 from db.get_db import get_db
 from chemas.product import ProductCreate , ProductUpdate
 from models.product import Product
-from base.getname import getname
 
 
 app = APIRouter()
@@ -41,14 +39,18 @@ def getListData(data , id):
     
         if id == 1:
             product =  getNameFpt(item.name)
+            label = item.labelId
         if id == 2:
             product = getNameTgdt(item.name)
+            label = item.labelId
         if id == 0 :
             product = item.name
+            label = None
         base = {
             "id" : item.id,
             "name" : product,
             "price" : int(price),
+            "labelId" : label
         }
         rs.append(base)
     return rs
@@ -67,16 +69,25 @@ def getNameTgdt(name):
         product += names[i] + " "  
     return product
 
-@app.get("/getname")
+@app.get("/showProduct")
 def getList(db: Session = Depends(get_db) ):
-    fpt = cruds.product.getManyDataByShopId(db , 1)
+    idFpt = cruds.shop.getByName(db , "fpt")
+    fpt = cruds.product.getManyDataByShopId(db , idFpt.id)
     data1 = getListData(fpt , 1 )
-    lazada = cruds.product.getManyDataByShopId(db , 2)
+    idlazada = cruds.shop.getByName(db , "lazada")
+    lazada = cruds.product.getManyDataByShopId(db , idlazada.id)
     data2 = getListData(lazada ,0)
-    shopee = cruds.product.getManyDataByShopId(db , 3)
+    idShopee = cruds.shop.getByName(db , "Shopee")
+    shopee = cruds.product.getManyDataByShopId(db , idShopee.id)
     data3 = getListData(shopee , 0) 
-    thegioididong = cruds.product.getManyDataByShopId(db , 4)
+    idTgdt = cruds.shop.getByName(db , "Thế giới di động")
+    thegioididong = cruds.product.getManyDataByShopId(db , idTgdt.id)
     data4 = getListData(thegioididong , 2)
+    print("data1" ,data1)
+    print("data2" ,data2)
+    print("data3" ,data3)
+    print("data4" ,data4)
+
     rs = []
     for i in data1:
         min = i["price"]
@@ -102,15 +113,7 @@ def getList(db: Session = Depends(get_db) ):
                     min = m["price"]
                 break
         if ( tgdd == None and lzd == None and  sp == None):
-            base =  {     
-                "name" : i["name"],
-                "price" : str(min),
-                "fptId" : i["id"],
-                "thegioididongId" : tgdd,
-                "lazadaId" : lzd,
-                "shopeeId" : sp
-            }
-            print(base)
+            continue
         else:
             show = ShowProduct(
                     name = i["name"],
@@ -118,56 +121,50 @@ def getList(db: Session = Depends(get_db) ):
                     thegioididongId =tgdd,
                     fptId = i["id"],
                     lazadaId = lzd,
-                    shopeeId = sp
+                    shopeeId = sp,
+                    labelId = i["labelId"],
             )
             name = cruds.showProduct.getByName(db , i["name"])
             if name is None :
                 base = cruds.showProduct.create(db ,show)
                 rs.append(base)
         
-    for i in data4:
-        min = i["price"]
+    for l in data4:
+        min = l["price"]
         for j in data2:
             lzd = None
-            if i["name"] in j["name"]:
+            if l["name"] in j["name"]:
                 lzd = j["id"]
                 if min > j["price"] :
                     min = j["price"]
                 break
         for k in data3:
             sp= None
-            if i["name"] in k["name"]:
+            if l["name"] in k["name"]:
                 sp = k["id"]
                 if min > k["price"] :
                     min = k["price"]
                 break
         for m in data1: 
             fs = None
-            if i["name"] in m["name"]:
+            if l["name"] in m["name"]:
                 fs = m["id"]
                 if min > m["price"] :
                     min = m["price"]
                 break
         if ( fs == None and lzd == None and  sp == None):
-            base =  {     
-                "name" : i["name"],
-                "price" : str(min),
-                "thegioididongId" : i["id"],
-                "fptId" : fs,
-                "lazadaId" : lzd,
-                "shopeeId" : sp
-            }
-            print(base)
+            continue
         else:
             show = ShowProduct(
-                    name = i["name"],
+                    name = l["name"],
                     price = str(min),
-                    thegioididongId = i["id"],
+                    thegioididongId = l["id"],
                     fptId = fs,
                     lazadaId = lzd,
-                    shopeeId = sp
+                    shopeeId = sp,
+                    labelId = l["labelId"],
             )
-            name = cruds.showProduct.getByName(db , i["name"])
+            name = cruds.showProduct.getByName(db , l["name"])
             if name is None :
                 base = cruds.showProduct.create(db ,show)
                 rs.append(base)
@@ -179,5 +176,4 @@ def getList(db: Session = Depends(get_db) ):
 def search(request: Request, db: Session = Depends(get_db), query: Optional[str] = None):
     search = cruds.showProduct.search(db , query)
     return custom_reponse(http_status=200 , data= search)
-
-
+    

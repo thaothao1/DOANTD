@@ -26,7 +26,8 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
             thegioididongId = obj_in.thegioididongId,
             lazadaId = obj_in.lazadaId,
             fptId = obj_in.fptId,
-            shopeeId = obj_in.shopeeId
+            shopeeId = obj_in.shopeeId,
+            labelId = obj_in.labelId
         )
         db.add(db_obj)
         db.commit()

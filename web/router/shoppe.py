@@ -4,7 +4,6 @@ from msilib.schema import Class
 from multiprocessing.dummy import Array
 from traceback import print_tb
 from turtle import title
-from base.CodeHTML import CodeHTML
 from re import template
 from fastapi import APIRouter , Request , Depends ,HTTPException
 from fastapi.templating import Jinja2Templates
@@ -16,8 +15,6 @@ from router.utils import custom_reponse
 from sqlalchemy.orm import Session
 import cruds 
 from db.get_db import get_db
-from base.getname import getname
-
 # ----------------------------------------------------- Xử lý chặn ------------------------------------
 # af-ac-enc-dat
 # sz-token
@@ -60,7 +57,8 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
             priceSale  =  str(priceSale),
             rating =  str(rating),
             link = "https://shopee.vn/product/{}/{}".format(_data_['shopid'], _data_['itemid']),
-            shopId = idShop.id
+            shopId = idShop.id,
+            labelId = None,
             )
           cruds.product.create(db , product)
     return True

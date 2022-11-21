@@ -18,6 +18,9 @@ class CRUDShop(CRUDBase[ Shop , ShopCreate , ShopUpdate ]):
     def getByName(self, db : Session , name : str ) -> Optional[Shop] : 
         return db.query(Shop).filter(Shop.name == name).one_or_none()
 
+    def getByIdShop(self, db : Session , id : int ) -> Optional[Shop] : 
+        return db.query(Shop).filter(Shop.id == id).one_or_none()
+
     def create(self, db: Session , obj_in : ShopCreate) -> Shop:
         auth_handler = Auth()
         db_obj = Shop( 

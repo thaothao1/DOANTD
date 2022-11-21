@@ -16,9 +16,8 @@ class CRUDLabel(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
         return db.query(Label).filter(Label.name == name).one_or_none()
 
     def create(self, db: Session , obj_in : LabelCreate) -> Label:
-        auth_handler = Auth()
         db_obj = Label( 
-                name = obj_in.name,
+            name = obj_in.name,
         )
         db.add(db_obj)
         db.commit()

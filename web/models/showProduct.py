@@ -11,3 +11,4 @@ class ShowProduct(Base ,TimestampMixin):
     lazadaId = Column(Integer() , ForeignKey("products.id") , nullable= True)
     fptId = Column(Integer() , ForeignKey("products.id") , nullable= True)
     shopeeId = Column(Integer() , ForeignKey("products.id") , nullable= True) 
+    labelId = Column(Integer() , ForeignKey("labels.id"), nullable= True) 

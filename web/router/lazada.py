@@ -5,7 +5,6 @@ from msilib.schema import Class
 from multiprocessing.dummy import Array
 from traceback import print_tb
 from turtle import title
-from base.getname import getname 
 from re import template
 from fastapi import APIRouter , Request , Depends ,HTTPException
 from fastapi.templating import Jinja2Templates

@@ -3,7 +3,6 @@ from msilib.schema import Class
 from multiprocessing.dummy import Array
 from traceback import print_tb
 from turtle import title
-from base.getname import getname
 from re import template
 from fastapi import APIRouter , Request , Depends ,HTTPException
 from fastapi.templating import Jinja2Templates
@@ -21,11 +20,18 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 from models.product import Product
-from base.getname import getname
-
+import re
 
 app = APIRouter()
 # templates = Jinja2Templates(directory = "templates")
+def getLabel(link):
+  label = None
+  mask = f"""https://fptshop.com.vn/dien-thoai/([^/]+)./*"""
+  m = re.match(mask , link )
+  if m:
+      label = m.group(1).strip()
+  text = label.split("-")
+  return text[0].lower()
 
 @app.get("/fptShop")
 def getListProductFPTShop(db: Session = Depends(get_db) ):
@@ -41,6 +47,7 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
   actions =  ActionChains(driver)
   time.sleep(3)
   while True:
+      print ("1")
       try:
           conatiner = driver.find_element(By.CSS_SELECTOR , '.cdt-product--loadmore a')
           actions.click(on_element=conatiner).perform()
@@ -52,17 +59,15 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
   links = driver.find_elements(By.XPATH , '//div[contains(@class , "cdt-product-wrapper")]/div[contains(@class , "cdt-product  ")]/div[@class="cdt-product__info"]/h3/a')
 
   listDict = []
-
   shop = Shop(
-    name = "FPT shop",
-    link = "https://fptshop.com.vn",
+        name = "fpt",
+        link = "https://fptshop.com.vn",
   )
-  idShop = cruds.shop.getByName(db , "FPT shop")
+  idShop = cruds.shop.getByName(db , "fpt")
   if idShop is None:
-     idShop = cruds.shop.create(db , shop)
-
+    idShop = cruds.shop.create(db , shop)
   for link in links:
-    
+  
       check = None
       
       content = link.get_attribute("textContent").strip()
@@ -70,15 +75,15 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
       xPathCheck = '//div[@class="cdt-product__info"]/h3/a[text()="{}"]/parent::h3/parent::div/div[ (@class="cdt-product__price" or @class="cdt-product__show-promo") and normalize-space(.//text())]'.format(content)
       
       try:
-        check = driver.find_element(By.XPATH , xPathCheck)
+          check = driver.find_element(By.XPATH , xPathCheck)
       except:
-        pass
+          pass
       
       
       if check == None:
-        print("No Money: " , link.get_attribute("href"))
-        print("xPath" , xPathCheck)
-        continue
+          print("No Money: " , link.get_attribute("href"))
+          print("xPath" , xPathCheck)
+          continue
       
       
       time.sleep(2)
@@ -104,12 +109,12 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
           try:        
             ratting = driver.find_elements(By.XPATH , '//ul[@class="st-rating__star"]/li/span[contains(@class , "icon-star fill")]')  
           except:
-            pass
+              pass
           
           try:
-            ratting_total = driver.find_element(By.XPATH , '//div[@class="st-rating__link"]/a').get_attribute("textContent")
+              ratting_total = driver.find_element(By.XPATH , '//div[@class="st-rating__link"]/a').get_attribute("textContent")
           except:
-            pass
+              pass
           
           xPrice = '//div[@class="st-price"]'
           try:
@@ -121,38 +126,39 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
           price_old = None
           
           try:
-            price_old = driver.find_element(By.XPATH , xPrice + '/div[@class="st-price__left"]/div[@class="st-price-sub"]').get_attribute("textContent")
+              price_old = driver.find_element(By.XPATH , xPrice + '/div[@class="st-price__left"]/div[@class="st-price-sub"]').get_attribute("textContent")
           except:
               try:
                   price_old = driver.find_element(By.XPATH , xPrice + 'strike').get_attribute("textContent")
               except:
-                  price_old = "Không giảm"
+                  price_old = price
           
           try:
-            imgs = driver.find_element(By.XPATH , '//div[@class="swiper-wrapper js--slide--full"]/div/img').get_attribute("src")
+              imgs = driver.find_element(By.XPATH , '//div[@class="swiper-wrapper js--slide--full"]/div/img').get_attribute("src")
+              print("DIEU12345678", imgs)
           except:
-            pass
-          link = str(driver.current_url).strip(),
-          # shop = "https://fptshop.com.vn/dien-thoai/"
-          # label = getname.getLabel(shop,link)
-          # idLabel = cruds.label.getByName(db ,label)
-          # if idLabel == None :
-          #   createLabel = Label(
-          #     name = label
-          #   )
-          #   idLabel = cruds.label.create(db, createLabel)
-          # print(label)
-          # print(idLabel)
+              pass
+          url = str(driver.current_url).strip()
+          nameLabel = getLabel(url)
+          label = cruds.label.getByName(db , nameLabel)
+          if (label == None):
+            lb = Label(
+              name = nameLabel
+            )
+            label = cruds.label.create(db , lb)
+          print(Label)
           product = Product(
             name = name.strip(),
-            link = link,
+            link = url,
             image = imgs,
             priceSale = str(price),
             price = str(price_old),
             rating =  str(len(ratting)),
             shopId = idShop.id,
+            labelId = label.id
           )
           base = cruds.product.create(db , product)
+
       except Exception as e:
           print(e)
           print('error link: {}'.format(driver.current_url))
@@ -161,3 +167,5 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
       driver.switch_to.window(driver.window_handles[0])
       actions = ActionChains(driver)
   return base
+
+

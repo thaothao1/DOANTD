@@ -1,11 +1,11 @@
 import json
+from tkinter import Label
 import requests
 import cruds 
 from msilib.schema import Class
 from multiprocessing.dummy import Array
 from traceback import print_tb
 from turtle import title
-from base.getname import getname
 from re import template
 from fastapi import APIRouter , Request , Depends ,HTTPException
 from fastapi.templating import Jinja2Templates
@@ -24,10 +24,19 @@ from selenium.webdriver.support import expected_conditions as EC
 import json
 import time
 from models.product import Product
+import re
 
 
 app = APIRouter()
 # templates = Jinja2Templates(directory = "templates")
+def getLabel(link):
+  label = None
+  mask = f"""https://www.thegioididong.com/dtdd/([^/]+)./*"""
+  m = re.match(mask , link )
+  if m:
+      label = m.group(1).strip()
+  text = label.split("-")
+  return text[0].lower()
 
 @app.get("/thegioididong")
 def getListProductShoppe(db: Session = Depends(get_db) ):
@@ -71,20 +80,17 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
             time.sleep(2)
 
             name = driver.find_element(By.XPATH , '//section[@class = "detail "]/h1').get_attribute("textContent")
-            # print("DIEU123 : ", name)
-
             ratting = "0.0"
             ratting_total = None
             
             try:
                 ratting = driver.find_elements(By.XPATH , '//div[@class="box02"]/div/div/p[not(@class)]/i[@class="icondetail-star"]') 
-                # print("hello : ", len(ratting))
             except Exception:
                 ratting = 0
             
             try:
                 ratting_total = driver.find_element(By.XPATH , '//div[@class="box02"]/div/div/p[@class="detail-rate-total"]').get_attribute("textContent")
-                # print("xinchao : ", ratting_total)
+         
             except Exception:
                 ratting_total = 0
 
@@ -96,21 +102,30 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
             try:
                 price = driver.find_element(By.XPATH, '//p[@class="box-price-old"]').get_attribute("textContent")
             except Exception:
-                price = "Không giảm"
-            # print("price1 : ", priceSale)
-            # print("DieuPrice : ", price)
+                price = priceSale
+            url = str(driver.current_url).strip()
+            nameLabel = getLabel(url)
+            print(nameLabel)
+            label = cruds.label.getByName(db , nameLabel)
+            if (label == None):
+                lb = Label(
+                name = nameLabel
+            )
+                label = cruds.label.create(db , lb)
+            print(label)
             size = len(ratting)
             product = Product(
                 name = name.strip(),
-                link = str(driver.current_url).strip(),
+                link = url,
                 image = img,
                 priceSale = str(priceSale),
                 price = str(price),
                 rating = str(size),
                 shopId = idShop.id,
+                labelId = label.id
             )
             base = cruds.product.create(db , product)
-            print(base)
+            # print(base)
         except Exception as e:
             print(e)
             print('error link: {}'.format(driver.current_url))
