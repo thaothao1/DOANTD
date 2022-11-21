@@ -21,6 +21,8 @@ import json
 import time
 from models.product import Product
 import re
+from models.label import Label
+import cruds
 
 
 app = APIRouter()
@@ -101,14 +103,12 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                 price = priceSale
             url = str(driver.current_url).strip()
             nameLabel = getLabel(url)
-            print(nameLabel)
             label = cruds.label.getByName(db , nameLabel)
             if (label == None):
                 lb = Label(
                 name = nameLabel
             )
                 label = cruds.label.create(db , lb)
-            print(label)
             size = len(ratting)
             product = Product(
                 name = name.strip(),
