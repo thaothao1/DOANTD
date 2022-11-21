@@ -1,1 +1,0 @@
-from .getname import getname
