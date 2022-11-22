@@ -20,7 +20,7 @@ class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
 
     def create(self, db: Session , obj_in : ProductCreate ) -> Product:
         db_obj = Product( 
-                product = obj_in.product,
+                name = obj_in.name,
                 link = obj_in.link,
                 image = obj_in.image ,
                 price = obj_in.price,

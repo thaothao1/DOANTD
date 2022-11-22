@@ -3,7 +3,7 @@ from unicodedata import category
 from cruds.base import CRUDBase
 from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
-from web.chemas.category import CategoryCreate , CategoryUpdate
+from chemas.category import CategoryCreate , CategoryUpdate
 from models.category import Category
 
 class CRUDProvince(CRUDBase[ Category, CategoryCreate , CategoryUpdate ]):

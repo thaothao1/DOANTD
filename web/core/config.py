@@ -22,11 +22,11 @@ class Settings(BaseSettings):
     HOST_WEBAPP = "localhost"
     PORT_WEBAPP = "8000"
     APP_NAME = "price"
-    DATABASE_DB = "price"
+    DATABASE_DB = "postgres"
     DATABASE_HOST = "localhost"
     DATABASE_PASSWORD = "postgres"
     DATABASE_USER = "postgres"
-    SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:postgres@postgres/price"
+    SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:postgres@postgres/postgres"
 
     class Config:
         case_sensitive = True

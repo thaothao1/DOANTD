@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from web.db.base_class import Base, TimestampMixin
+from db.base_class import Base, TimestampMixin
 
 class Label(Base , TimestampMixin):
     __tablename__ = "labels"

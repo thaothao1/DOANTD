@@ -1,6 +1,6 @@
 from sqlalchemy import Column , Integer , String , Boolean ,ForeignKey
 from sqlalchemy.orm import relationship
-from web.db.base_class import Base , TimestampMixin
+from db.base_class import Base , TimestampMixin
 
 class District(Base ,  TimestampMixin):
     __tablename__ = "districts"

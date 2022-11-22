@@ -1,5 +1,5 @@
 from sqlalchemy import Column , Integer , String 
-from web.db.base_class import Base , TimestampMixin
+from db.base_class import Base , TimestampMixin
 
 class Shop(Base ,TimestampMixin):
     __tablename__ = "shops"
