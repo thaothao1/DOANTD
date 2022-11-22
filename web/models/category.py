@@ -1,6 +1,6 @@
 from sqlalchemy import Column , Integer , String , Boolean ,ForeignKey
 from sqlalchemy.orm import relationship
-from db.base_class import Base , TimestampMixin
+from web.db.base_class import Base , TimestampMixin
 
 class Category(Base , TimestampMixin):
     __tablename__ = "categories"

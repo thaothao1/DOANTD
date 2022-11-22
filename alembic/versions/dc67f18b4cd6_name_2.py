@@ -1,8 +1,8 @@
-"""create new data
+"""name 2
 
-Revision ID: 51bcf7882305
+Revision ID: dc67f18b4cd6
 Revises: 
-Create Date: 2022-11-16 13:38:21.217210
+Create Date: 2022-11-17 17:57:58.065632
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '51bcf7882305'
+revision = 'dc67f18b4cd6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,7 +23,6 @@ def upgrade() -> None:
     sa.Column('changed_at', sa.DateTime(), nullable=True),
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=200), nullable=True),
-    sa.Column('link', sa.String(length=200), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_labels_id'), 'labels', ['id'], unique=False)
@@ -47,8 +46,6 @@ def upgrade() -> None:
     sa.Column('priceSale', sa.String(length=1150), nullable=True),
     sa.Column('rating', sa.String(length=1000), nullable=True),
     sa.Column('shopId', sa.Integer(), nullable=True),
-    sa.Column('labelId', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['labelId'], ['labels.id'], ),
     sa.ForeignKeyConstraint(['shopId'], ['shops.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

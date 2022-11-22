@@ -1,7 +1,7 @@
 from itertools import product
 from sqlalchemy import Column , Integer , String , ForeignKey
 from sqlalchemy.orm import relationship
-from db.base_class import TimestampMixin , Base
+from web.db.base_class import TimestampMixin , Base
 
 class Product( Base , TimestampMixin):
     __tablename__ = "products"
