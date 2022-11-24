@@ -26,7 +26,8 @@ class Settings(BaseSettings):
     DATABASE_HOST = "postgres"
     DATABASE_PASSWORD = "postgres"
     DATABASE_USER = "postgres"
-    SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:postgres@postgres/price"
+    # SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:postgres@postgres/price"
+    SQLALCHEMY_DATABASE_URI =  f"postgresql://postgres:thaothao123@localhost:5432/FastSS"
 
     class Config:
         case_sensitive = True

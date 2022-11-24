@@ -1,7 +1,10 @@
+ThuDiệu Nguyễn
 up:
 	docker-compose up -d 
 down:
 	docker-compose down
+build:
+	docker-compose build
 log:
 	docker logs -t web_doan_app_1
 rm: 

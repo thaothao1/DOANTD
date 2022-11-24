@@ -27,14 +27,15 @@ class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
 
     def create(self, db: Session , obj_in : ProductCreate ) -> Product:
         db_obj = Product( 
-                product = obj_in.product,
+                name = obj_in.name,
                 link = obj_in.link,
                 image = obj_in.image ,
                 price = obj_in.price,
                 priceSale = obj_in.priceSale,
                 rating = obj_in.rating,
                 shopId = obj_in.shopId,
-                labelId = obj_in.labelId
+                labelId = obj_in.labelId,
+                categoryId = obj_in.categoryId,
         )
         db.add(db_obj)
         db.commit()

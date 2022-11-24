@@ -12,6 +12,7 @@ class ProductBase(BaseModel):
     rating : Optional[str]
     shopId : Optional[int]
     label : Optional[int]
+    categoryId : Optional[int]
 
 
 
@@ -28,6 +29,7 @@ class ProductCreate(ProductBase):
     rating : str
     shopId: int
     labelId : int
+    categoryId: int
 
 
 
@@ -41,4 +43,5 @@ class ProductUpdate(ProductBase):
     rating : str
     shopId : int
     labelId : int 
+    categoryId: int
 

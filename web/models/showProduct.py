@@ -12,3 +12,4 @@ class ShowProduct(Base ,TimestampMixin):
     fptId = Column(Integer() , ForeignKey("products.id") , nullable= True)
     shopeeId = Column(Integer() , ForeignKey("products.id") , nullable= True) 
     labelId = Column(Integer() , ForeignKey("labels.id"), nullable= True) 
+    categoryId = Column(Integer() , ForeignKey("categories.id"), nullable= True)

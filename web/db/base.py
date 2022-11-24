@@ -3,3 +3,5 @@ from models.shop import Shop
 from models.product import Product
 from models.label import Label
 from models.showProduct import ShowProduct
+from models.category import Category
+from models.history import History

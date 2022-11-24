@@ -11,6 +11,7 @@ class ShowProductBase(BaseModel):
     fptId : Optional[int]
     shopeeId : Optional[int]
     labelId : Optional[int]
+    categoryId : Optional[int]
 
 class ShowProductInBase(ShowProductBase):
     class Config:
@@ -24,6 +25,7 @@ class ShowProductCreate(ShowProductBase):
     fptId: int
     shopeeId: int
     labelId: int
+    categoryId: int
 
 
 class ShowProductUpdate(ShowProductBase):
@@ -34,3 +36,4 @@ class ShowProductUpdate(ShowProductBase):
     fptId: int
     shopeeId: int
     labelId: int
+    categoryId: int

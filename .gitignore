@@ -7,3 +7,6 @@ web/chemas/__pycache__/*.pyc
 alembic
 *.pyyc
 *.pyc
+/myapp/pgadmin/*
+/myapp/postgres-data/*
+
