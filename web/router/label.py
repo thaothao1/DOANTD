@@ -33,8 +33,9 @@ def deleteLabel( id : int, db: Session = Depends(get_db)):
     return custom_reponse(http_status=200 , data= data)
 
 @app.put("/label/{id}")
-def updateLabel( id : int , db : Session = Depends(get_db) , request = LabelUpdate ):
-    data = cruds.label.update(db , request)
+def updateLabel(body : LabelUpdate , id : int , db : Session = Depends(get_db)):
+    print(body)
+    data = cruds.label.update(db ,id,body)
     if data == None:
         return HTTPException(status_code=400 , detail="false")
     return custom_reponse(http_status=200 , data= data)

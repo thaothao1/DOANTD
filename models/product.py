@@ -14,3 +14,7 @@ class Product( Base , TimestampMixin):
     priceSale = Column(String(1150))
     rating = Column(String(1000))
     shopId = Column(Integer() , ForeignKey("shops.id"))
+    labelId = Column(Integer() , ForeignKey("labels.id"), nullable= True)
+    categoryId = Column(Integer() , ForeignKey("categories.id"), nullable= True)
+
+

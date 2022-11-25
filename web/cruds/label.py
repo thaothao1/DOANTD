@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Union , List
 from chemas.label import LabelUpdate ,LabelCreate
 from models.label import Label
+from fastapi.encoders import jsonable_encoder
 
 class CRUDLabel(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
 
@@ -16,7 +17,7 @@ class CRUDLabel(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
 
     def create(self, db: Session , obj_in : LabelCreate) -> Label:
         db_obj = Label( 
-                name = obj_in.name,
+            name = obj_in.name,
         )
         db.add(db_obj)
         db.commit()
@@ -26,8 +27,12 @@ class CRUDLabel(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
     def getData(self, db : Session , skip : int = 0 , limit : int = 100):
         return db.query(Label).offset(skip).limit(limit).all()
 
-    # def update(self, db: Session , districtId : int , obj_in : DistrictUpdate ):
-    #     data = db.query(District).filter(District.id == districtId).one_or_none()
+    def update(self, db: Session , id : int , obj_in : LabelUpdate) -> Label:
+        data = self.getById(db , id)
+        data.name = obj_in.name
+        db.commit()
+        db.refresh(data)
+        return data
      
     def remove(self, db: Session , labelId : int ):
         data = db.query(Label).filter(Label.id == labelId).one_or_none()

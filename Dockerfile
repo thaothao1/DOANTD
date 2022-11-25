@@ -14,4 +14,4 @@ RUN pip install webdriver-manager
 RUN pip install alembic
 COPY . /web/
 EXPOSE 8000
-CMD ["python", "web/main.py"]
+# CMD ["python", "web/main.py"]

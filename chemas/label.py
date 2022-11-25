@@ -3,7 +3,6 @@ from typing import Optional
 
 
 class LabelBase(BaseModel):
-
     id : Optional[int]
     name : Optional[str]
 
