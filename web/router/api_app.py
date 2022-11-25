@@ -73,36 +73,19 @@ def getListShowProduct(request: Request,db: Session = Depends(get_db) , page_num
     return custom_reponse(http_status=200 , data= response)
 
 
-@app.get("/allProductFPT")
-def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None , size : Optional[int] = None):
-    shop = cruds.shop.getByName(db , "fpt")
-    print(shop)
-    product = cruds.product.getManyDataByShopId(db , shop.id)
-    return custom_reponse(http_status=200 , data= { "shop" : shop , "product" : paginate(product,page,size)})
-
-@app.get("/allProductLazada")
-def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None , size : Optional[int] = None):
-    shop = cruds.shop.getByName(db , "lazada")
-    product = cruds.product.getManyDataByShopId(db , shop.id)
-    return custom_reponse(http_status=200 , data= { "shop" : shop , "product" : paginate(product,page,size)})
-
-
-@app.get("/allProductShopee")
-def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None , size : Optional[int] = None):
-    shop = cruds.shop.getByName(db , "Shopee")
-    product = cruds.product.getManyDataByShopId(db , shop.id)
-    return custom_reponse(http_status=200 , data= { "shop" : shop , "product" : paginate(product,page,size)})
-
-@app.get("/allProductThegioididong")
-def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None , size : Optional[int] = None, label : Optional[str] = None):
-    shop = cruds.shop.getByName(db , "Thế giới di động")
-    if (label is not None):
-        Label = cruds.label.getByName(db , label)
-        print(Label.id)
-        # product = cruds.product.getProductByShopAndLabel(db ,shop.id , labelId.id)
-        product = db.query(Product).filter(Product.shopId == shop.id and Product.labelId == Label.id).all()
-        print(product)
+@app.get("/allProduct")
+def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None , size : Optional[int] = None, label : Optional[str] = None , shop : Optional[str] = None):
+    shopId = cruds.shop.getByName(db , shop)
+    if (shopId is not None):
+        if (label is not None):
+            Label = cruds.label.getByName(db , label)
+            product = cruds.product.getProductByShopAndLabel(db ,shopId.id , label.id)
+        else:
+            label = None
+            product = cruds.product.getManyDataByShopId(db , shopId.id , label.id)
     else:
-        product = cruds.product.getManyDataByShopId(db , shop.id)
-    return custom_reponse(http_status=200 , data= { "shop" : shop , "product" : paginate(product,page,size)})
+        shopId = None
+        label = None
+        product = cruds.product.getData(db)
+    return custom_reponse(http_status=200 , data= { "shop" : shopId , "product" : paginate(product,page,size)})
 

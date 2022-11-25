@@ -23,7 +23,7 @@ class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
         return db.query(Product).filter(Product.shopId == shop).all()
 
     def getProductByShopAndLabel(self, db : Session , shop : int , labelId : int):
-        return db.query(Product).filter(Product.shopId == shop and Product.labelId == labelId).all()
+        return db.query(Product).filter(Product.shopId == shop , Product.labelId == labelId).all()
 
     def create(self, db: Session , obj_in : ProductCreate ) -> Product:
         db_obj = Product( 
