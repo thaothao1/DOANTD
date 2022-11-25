@@ -12,6 +12,7 @@ class ShowProductBase(BaseModel):
     shopeeId : Optional[int]
     labelId : Optional[int]
     categoryId : Optional[int]
+    view: Optional[int]
 
 class ShowProductInBase(ShowProductBase):
     class Config:
@@ -37,3 +38,4 @@ class ShowProductUpdate(ShowProductBase):
     shopeeId: int
     labelId: int
     categoryId: int
+    view: int

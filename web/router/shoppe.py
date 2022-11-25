@@ -7,6 +7,7 @@ from re import template
 from fastapi import APIRouter , Request , Depends ,HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from models.category import Category
 from models.label import Label
 from models.product import Product
 from models.shop import Shop
@@ -27,8 +28,8 @@ app = APIRouter()
 # templates = Jinja2Templates(directory = "templates")
 
 
-key = "điện thoại"
-path = "C:/Users/Thu Dieu/Downloads/Compressed/chromedriver_win32/chromedriver"
+
+path = "./chromedriver"
 options = {
     "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
 }
@@ -89,24 +90,39 @@ def getHeader(key):
 #     with open('cookie.json', 'r') as openfile:
 #         json_object = json.load(openfile)
 
-def info_items(data):
+def info_items(data , db , key):
     list_item = []
     items = data['items']
+    shop = Shop(
+        name = "shopee",
+        link = "https://shopee.vn",
+        )
+    idShop = cruds.shop.getByName(db , "shopee")
+    if idShop is None:
+        idShop = cruds.shop.create(db , shop)
 
+    if ( key == "điện thoại"):
+                idCategory = cruds.category.getByName(db , "Điện thoại")
+                if idCategory is None:
+                    data = Category(
+                        name = "Điện thoại"
+                    )
+                    idCategory = cruds.category.create(db , data)      
+    if ( key == "laptop"):
+        idCategory = cruds.category.getByName(db , "Laptop")
+        if idCategory is None:
+            data = Category(
+                name = "Laptop"
+            )
+            idCategory = cruds.category.create(db , data)  
     for item in items:
-        
         item = item['item_basic']
-
-
-        itemid = item['itemid'],
-            "shopid" : item['shopid'],
-            "name" : item['name'],
-            "image" : "https://cf.shopee.vn/file/" + item['image'],
-            "price_min" : int(item['price_min']) / 100000,
-            "price_max" : int(item['price_max']) / 100000,
-            "rating" : item['item_rating']['rating_star'],
-            "link" : "https://shopee.vn/product/{}/{}".format(item['shopid'], item['itemid'])
-        })
+        name =  item['name']
+        image = "https://cf.shopee.vn/file/" + item['image']
+        price_min = int(item['price_min']) / 100000
+        price_max = int(item['price_max']) / 100000
+        rating = item['item_rating']['rating_star']
+        link = "https://shopee.vn/product/{}/{}".format(item['shopid'], item['itemid'])
         listDict = Product(
                     name = str(name),
                     link = str(link),
@@ -114,12 +130,12 @@ def info_items(data):
                     priceSale = str(price_min),
                     price = str(price_max),
                     rating = str(len(rating)),
-                    labelId = lbId.id,
+                    labelId = None,
                     shopId = idShop.id,
                     categoryId = idCategory.id
                 )
-                cruds.product.create(db , listDict)
-                base.append(listDict)
+        cruds.product.create(db , listDict)
+        list_item.append(listDict)
         with open('data_shopee.json', 'w' , encoding='utf-8') as f:
             json.dump(list_item, f, indent=2 , ensure_ascii= False)
             print("New json file is created from data_shopee.json file")
@@ -128,26 +144,30 @@ def info_items(data):
         #     outfile.write(json_object)
     return list_item
 
-def getProducts(url):
+def getProducts(key ,url , db):
         while True:
             
             driver.request_interceptor = interceptor
             driver.get(url)
             try:
                 r=(driver.find_element("xpath",("/html/body/pre")).text)
-                list_item = info_items(json.loads(r))
+                list_item = info_items(json.loads(r) , db , key)
                 return list_item
             except:
                 getHeader(key)
 
 @app.get("/shopee")
-def search(key):
-    getHeader(key)
-    data = []
-    for i in range(0,2) :   
-        url = "https://shopee.vn/api/v4/search/search_items?by=relevancy&keyword={}&newest={}&limit=60".format(key, i*60)
-        data += (getProducts(url))
-    return data
+def search( db: Session = Depends(get_db)):
+    keys = ["điện thoại" , "laptop"]
+    base = []
+    for key in keys:
+        getHeader(key)
+        data = []
+        for i in range(0,2) :   
+            url = "https://shopee.vn/api/v4/search/search_items?by=relevancy&keyword={}&newest={}&limit=60".format(key, i*60)
+            data += (getProducts(key ,url , db))
+            base.append(data)
+    return base
 
 
 

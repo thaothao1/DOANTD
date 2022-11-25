@@ -13,5 +13,5 @@ class ShowProduct(Base ,TimestampMixin):
     shopeeId = Column(Integer() , ForeignKey("products.id"), nullable= True) 
     labelId = Column(Integer() , ForeignKey("labels.id"), nullable= True) 
     categoryId = Column(Integer() , ForeignKey("categories.id"), nullable= True)
-    
+    view = Column(Integer() , nullable= True)
     
