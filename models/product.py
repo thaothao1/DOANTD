@@ -3,7 +3,7 @@ from sqlalchemy import Column , Integer , String , ForeignKey
 from sqlalchemy.orm import relationship
 from web.db.base_class import TimestampMixin , Base
 
-class Product( Base , TimestampMixin):
+class Product(Base , TimestampMixin):
     __tablename__ = "products"
 
     id = Column(Integer , primary_key = True , index = True , autoincrement = True)

@@ -47,7 +47,7 @@ def interceptor(request):
     request.headers['af-ac-enc-dat'] = dat_global
     request.headers['cookie'] = cookie_global
     request.headers['x-csrftoken'] = csrftoken_global
-    request.headers['sz-token'] = token_global    
+    request.headers['sz-token'] = token_global     
 
 def getHeader(key):
     global drive
@@ -55,7 +55,6 @@ def getHeader(key):
     global cookie_global
     global csrftoken_global
     global token_global
-
     time_max = 1
 
     while time_max <= TIME_MAX_REQ:
@@ -95,7 +94,7 @@ def info_items(data ,key , db):
     idShop = cruds.shop.getByName(db , "shopee")
     if idShop is None:
         idShop = cruds.shop.create(db , shop)
-
+    idCategory = None
     if ( key == "điện thoại"):
         idCategory = cruds.category.getByName(db , "Điện thoại")
         if idCategory is None:

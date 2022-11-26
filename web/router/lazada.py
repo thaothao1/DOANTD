@@ -44,6 +44,7 @@ def getListProductLazada(db: Session = Depends(get_db) ):
                         name = "Điện thoại"
                     )
                     idCategory = cruds.category.create(db , data)      
+            print(idCategory.name)
             if ( label == "laptop"):
                 idCategory = cruds.category.getByName(db , "Laptop")
                 if idCategory is None:

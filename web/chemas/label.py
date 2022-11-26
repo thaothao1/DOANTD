@@ -3,9 +3,10 @@ from typing import Optional
 
 
 class LabelBase(BaseModel):
-
     id : Optional[int]
     name : Optional[str]
+    categoryId : Optional[int]
+
 
 class LabelInBase(LabelBase):
     class Config:
@@ -13,11 +14,12 @@ class LabelInBase(LabelBase):
 
 class LabelCreate(LabelBase):
     name : str
+    categoryId : int
 
 
 class LabelUpdate(LabelBase):
     name : str
-
+    categoryId : int
 
 
     

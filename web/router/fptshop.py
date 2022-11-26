@@ -173,7 +173,8 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
                     lbId = cruds.label.getByName(db , nameLabel.lower())
                     if (lbId == None):
                         lb = Label(
-                            name = nameLabel
+                            name = nameLabel.lower(),
+                            categoryId = idCategory.id,
                         )
                         lbId = cruds.label.create( db, lb )
                     listDict = Product(
