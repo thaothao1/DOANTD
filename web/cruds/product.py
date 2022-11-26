@@ -22,9 +22,24 @@ class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
     def getManyDataByShopId(self, db: Session , shop : int )->Optional[Product]:
         return db.query(Product).filter(Product.shopId == shop).all()
 
-    def getProductByShopAndLabel(self, db : Session , shop : int , labelId : int):
+    def getProductByLabel(self, db: Session , label : int ) -> Optional[Product]:
+        return db.query(Product).filter(Product.labelId == label).all()
+
+    def getProductByCategory(self, db: Session , category : int)-> Optional[Product]:
+        return db.query(Product).filter(Product.categoryId == category).all()
+
+    def getProductByShopAndLabel(self, db : Session , shop : int , labelId : int ):
         return db.query(Product).filter(Product.shopId == shop , Product.labelId == labelId).all()
 
+    def getProductByShopAndCategory(self, db : Session , shop : int , category : int):
+        return db.query(Product).filter(Product.shopId == shop , Product.categoryId == category).all()
+
+    def getProductByShopAndLabelAndCategory(self , db :Session , shop: int , label : int , category : int):
+        return  db.query(Product).filter(Product.shopId == shop , Product.labelId == label , Product.categoryId == category).all()
+
+    def getProductByCategoryAndLabel(self, db: Session , category : int , label: int):
+        return db.query(Product).filter(Product.categoryId == category , Product.labelId == label).all()
+    
     def create(self, db: Session , obj_in : ProductCreate ) -> Product:
         db_obj = Product( 
                 name = obj_in.name,

@@ -23,7 +23,8 @@ app = APIRouter()
 @app.get("/lazada")
 def getListProductLazada(db: Session = Depends(get_db) ):
     try:
-        headers_dict = {"Cookie": "__wpkreporterwid_=59221794-28c1-4970-003d-52cf2f146f25; t_fv=1634089722051; _bl_uid=UUlaa5hgxI2rO9cs0kg0a78f9OIs; lzd_cid=fb6cdbf3-832a-45c0-90f9-758f629be545; t_uid=fb6cdbf3-832a-45c0-90f9-758f629be545; hng=VN|vi|VND|704; userLanguageML=vi; _gcl_aw=GCL.1665904433.Cj0KCQjw166aBhDEARIsAMEyZh5bAaEKmaHKeFQhQg34IkRs-F6nm6kklVj0AHcHYlbaZib7xZDFc6IaAuyVEALw_wcB; t_sid=454h9271jL9VYLIZsZlG1hGUPKTb5hFe; utm_channel=NA; _m_h5_tk=27096d541c48129add21c164a1979996_1668265050062; _m_h5_tk_enc=c04027b15d98bb04756a153ebffd9d05; _gcl_au=1.1.335879936.1668257130; EGG_SESS=S_Gs1wHo9OvRHCMp98md7JMRnSmUXuAby1c3TjUT1lve_GPqb7A0pKwN3MlaW5DS5c3hjRDxSyUCiFCjtlr9GTgQfVTASuRc03HtfupzdEawOaIwfyYrSj1Y18usgd1jK6CWp5uYz3cTEHLJBZNB0bynu2DzIMxN3VnSJkoQ4BQ=; x5sec=7b22617365727665722d6c617a6164613b32223a223330343966653134626339386465323566626165333831396331386630393632434e624976707347454f4b2f2b5a50627875337a786745777765576e35506a2f2f2f2f2f41554144227d; lzd_sid=1be5b39bfd6336ae9f44e45f513404f5; _tb_token_=356387e3a3e1; tfstk=cUgPBQbdSULy5zcpBr4E7yiuBHNRZFy3CZPaqpqgSlYfEuEliqWLiqcTgW5VKuf..; l=eBrrkMMVgFnYy0HXBOfwourza77OSIRAguPzaNbMiOCPO3Cp571lW6rHZET9C3Mdh67BR3S8rH0MBeYBqIv8uzdMX9C7Ykkmn; isg=BAkJZauujtd_hnAqIdTTANMbGDVjVv2IvpntBKt-hfAv8ikE86YNWPckMEjEqpXA"}
+        print("vooooooooooooooooooooooooooooooooooooooooooooooooo")
+        headers_dict = {"Cookie": "__wpkreporterwid_=16f57696-fc75-4461-3851-f663d47d47a2; lzd_cid=df798465-c838-4af4-dd17-8df9a06422be; t_uid=df798465-c838-4af4-dd17-8df9a06422be; hng=VN|vi|VND|704; userLanguageML=vi; t_fv=1668435671171; _bl_uid=khlpgaqRgt6vmbiIjr0j6d7bR5zh; cna=1zz5G4XEx0YCASpzc0kbO12R; _gcl_au=1.1.1607850565.1668435671; xlly_s=1; _fbp=fb.1.1669299914979.446593310; AMCV_126E248D54200F960A4C98C6%40AdobeOrg=-1124106680%7CMCIDTS%7C19321%7CMCMID%7C54073696294758083143550424436731232245%7CMCAAMLH-1669904715%7C3%7CMCAAMB-1669904715%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1669307115s%7CNONE%7CvVersion%7C5.2.0; _uetsid=d00354206c0311edaae51960dadec13b; _uetvid=d003afa06c0311ed9b08ddac2f35e1c1; t_sid=VZhzhtiwVx7SD5OPlOO5YVBcxox8Fss5; utm_origin=https://www.google.com/; utm_channel=SEO; lzd_sid=1b05fd4dc38d58c7a8fa89c462c28b9a; _m_h5_tk=87c2d6dc6c90eb9b7240bf154285e3fe_1669368322564; _m_h5_tk_enc=60d9d1d16e6f4cbeb728a67c3f482a1c; _tb_token_=ee395845d8bee; _gcl_aw=GCL.1669359684.CjwKCAiAyfybBhBKEiwAgtB7foUizhPzbcgSH8twJpW8ZmAA69zrJEy8u0Yqed1b6ekt45OUyxnRNxoCSBoQAvD_BwE; x5sec=7b22617365727665722d6c617a6164613b32223a226464313263616263626535636638393961376533393832326333313161623964434d5851675a7747454c2b35384a667237347243585444423561666b2b502f2f2f2f38425141493d227d; tfstk=cPrVBuNWceKWKPi1JmiaY4xy8jnAZXw0I3kIo1YFhraVTx0cirdtEFBrUA9ysqf..; l=eBE8aTQ7T1GK5uvhBOfwourza77OSIRAguPzaNbMiOCP_V1p5KmRW65vXLT9C3MNh626R3u4g_J9BeYBYIv8uzdMX9C7Ykkmn; isg=BNvb70JVPOKxrEBk85-qCzSyajZFsO-yprTG0c0Yt1rxrPuOVYB_AvkqRhQijEeq"}
 
         lables = [
             "dien-thoai-di-dong",
@@ -43,6 +44,7 @@ def getListProductLazada(db: Session = Depends(get_db) ):
                         name = "Điện thoại"
                     )
                     idCategory = cruds.category.create(db , data)      
+            print(idCategory.name)
             if ( label == "laptop"):
                 idCategory = cruds.category.getByName(db , "Laptop")
                 if idCategory is None:

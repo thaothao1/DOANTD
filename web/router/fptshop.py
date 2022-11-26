@@ -24,15 +24,7 @@ from models.category import Category
 
 
 app = APIRouter()
-# templates = Jinja2Templates(directory = "templates")
-# def getLabel(link):
-#   label = None
-#   mask = f"""https://fptshop.com.vn/dien-thoai/([^/]+)./*"""
-#   m = re.match(mask , link )
-#   if m:
-#       label = m.group(1).strip()
-#   text = label.split("-")
-#   return text[0].lower()
+
 
 @app.get("/fptShop")
 def getListProductFPTShop(db: Session = Depends(get_db) ):
@@ -172,7 +164,8 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
                     lbId = cruds.label.getByName(db , nameLabel.lower())
                     if (lbId == None):
                         lb = Label(
-                            name = nameLabel
+                            name = nameLabel.lower(),
+                            categoryId = idCategory.id,
                         )
                         lbId = cruds.label.create( db, lb )
                     listDict = Product(

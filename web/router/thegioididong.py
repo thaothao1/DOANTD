@@ -52,6 +52,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
             "url": "https://www.thegioididong.com/laptop",
         },
         ]
+        print(len(https))
         shop = Shop(
             name = "Thế giới di động",
             link = "https://www.thegioididong.com",
@@ -60,6 +61,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
         if idShop is None:
             idShop = cruds.shop.create(db , shop)
         for i in https:
+            print(i)
             if ( i["type"] == "dienthoai_thegioididong_crawl"):
                 idCategory = cruds.category.getByName(db , "Điện thoại")
                 if idCategory is None:
@@ -68,7 +70,9 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                     )
                     idCategory = cruds.category.create(db , data)      
             if ( i["type"] == "laptop_thegioididong_crawl"):
+                print("vooooooooooooo")
                 idCategory = cruds.category.getByName(db , "Laptop")
+                print("neeeeeeeeeeeeee" , idCategory)
                 if idCategory is None:
                     data = Category(
                         name = "Laptop"
@@ -144,7 +148,8 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                     lbId = cruds.label.getByName(db , nameLabel.lower())
                     if (lbId == None):
                         lb = Label(
-                            name = nameLabel
+                            name = nameLabel,
+                            categoryId = idCategory.id,
                             )
                         lbId = cruds.label.create( db, lb )
                     product = Product(
@@ -158,14 +163,15 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                         shopId = idShop.id,
                         categoryId = idCategory.id
                 )
+                    print("alooooooooooooooooooooooo" , product)
                     cruds.product.create(db , product)
                     listDict.append(product)
                 except Exception as e:
                     print(e)
                     print('error link: {}'.format(driver.current_url))
-            driver.close()
-            driver.switch_to.window(driver.window_handles[0])
-            actions = ActionChains(driver)
-            return custom_reponse(http_status=200 , data= listDict)
+                driver.close()
+                driver.switch_to.window(driver.window_handles[0])
+                actions = ActionChains(driver)
+        return custom_reponse(http_status=200 , data= listDict)
     except Exception as e:
         return HTTPException(status_code=400 , detail="Crawl data FPT error")
