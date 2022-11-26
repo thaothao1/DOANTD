@@ -46,6 +46,7 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
         # caps['acceptInsecureCerts'] = True
         # caps['acceptSslCerts'] = True
         driver = webdriver.Chrome(options=options, executable_path='/usr/local/bin/chromedriver')
+
         https = [
         {
             "type": "dienthoai",
@@ -84,14 +85,14 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
             driver.get(http.get('url'))
             actions =  ActionChains(driver)
             time.sleep(3)
-            while True:
-                try:
-                    conatiner = driver.find_element(By.CSS_SELECTOR , '.cdt-product--loadmore a')
-                    actions.click(on_element=conatiner).perform()
-                    time.sleep(1.3)
-                    # break
-                except:
-                    break
+            # while True:
+                # try:
+                #     conatiner = driver.find_element(By.CSS_SELECTOR , '.cdt-product--loadmore a')
+                #     actions.click(on_element=conatiner).perform()
+                #     time.sleep(1.3)
+                #     # break
+                # except:
+                #     break
                 
             links = driver.find_elements(By.XPATH , '//div[contains(@class , "cdt-product-wrapper")]/div[contains(@class , "cdt-product")]/div[@class="cdt-product__info"]/h3/a')
             for link in links:

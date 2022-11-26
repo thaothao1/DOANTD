@@ -48,8 +48,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
         # caps = webdriver.DesiredCapabilities.CHROME.copy()
         # caps['acceptInsecureCerts'] = True
         # caps['acceptSslCerts'] = True
-        # driver = webdriver.Chrome(options=options, executable_path='/usr/local/bin/chromedriver')
-        driver = webdriver.Chrome(options=options, executable_path='../chromedriver')
+        driver = webdriver.Chrome(options=options, executable_path='/usr/local/bin/chromedriver')
         https = [
         {
             "type": "dienthoai_thegioididong_crawl",
@@ -153,7 +152,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                     lbId = cruds.label.getByName(db , nameLabel.lower())
                     if (lbId == None):
                         lb = Label(
-                            name = nameLabel,
+                            name = nameLabel.lower(),
                             categoryId = idCategory.id,
                             )
                         lbId = cruds.label.create( db, lb )

@@ -52,7 +52,7 @@ def getListProductLazada(db: Session = Depends(get_db) ):
                         name = "Laptop"
                     )
                     idCategory = cruds.category.create(db , data)
-            for i in range(1,5) : 
+            for i in range(1,2) : 
                 url='https://www.lazada.vn/{}/?ajax=true&clickTrackInfo=94ab4ef5-9f79-4ca5-8773-58354cec4a2c__4518__272060244__static__0.09941919720767887__299225__7253&from=hp_categories&isFirstRequest=true&item_id=272060244&page={}&spm=a2o4n.home.categories.2.190565cbzJ6HXP&up_id=272060244&version=v2'.format(label, i)
                 response = requests.get(url, headers=headers_dict)
                 data = json.loads(response.text)

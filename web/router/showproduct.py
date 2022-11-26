@@ -188,7 +188,7 @@ def search(request: Request, db: Session = Depends(get_db), query: Optional[str]
     return custom_reponse(http_status=200 , data= search)
     
 @app.get("/detailProduct/{id}")
-def detailProduct(request : Request , db : Session = Depends(get_db), id: Optional[int] = None):
+def detailProduct(request : Request , db : Session = Depends(get_db), id: int = 1):
     data = cruds.showProduct.getById(db, id)
     if data == None:
         return HTTPException(status_code=400 , detail="false")
