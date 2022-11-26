@@ -4,7 +4,9 @@ web/chemas/__pycache__/
 env/
 *.pyc
 web/chemas/__pycache__/*.pyc 
-alembic
+alembic/versions
+alembic/README
+alembic/script.py.mako
 *.pyyc
 *.pyc
 /myapp/pgadmin/*
