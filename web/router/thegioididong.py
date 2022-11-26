@@ -28,20 +28,28 @@ import cruds
 
 app = APIRouter()
 # templates = Jinja2Templates(directory = "templates")
+options = webdriver.ChromeOptions()
+options.add_argument("--start-maximized")
+options.add_argument("--disable-infobars")
+options.add_argument("--no-proxy-server")
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 
+driver = None
 
 @app.get("/thegioididong")
 def getListProductShoppe(db: Session = Depends(get_db) ):
+    global driver
     try:
-        options = webdriver.ChromeOptions()
-        options.add_argument('--ignore-certificate-errors-spki-list')
-        options.add_argument('--ignore-ssl-errors')
-        caps = webdriver.DesiredCapabilities.CHROME.copy()
-        caps['acceptInsecureCerts'] = True
-        caps['acceptSslCerts'] = True
-
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-
+        # options = webdriver.ChromeOptions()
+        # options.add_argument('--ignore-certificate-errors-spki-list')
+        # options.add_argument('--ignore-ssl-errors')
+        # caps = webdriver.DesiredCapabilities.CHROME.copy()
+        # caps['acceptInsecureCerts'] = True
+        # caps['acceptSslCerts'] = True
+        # driver = webdriver.Chrome(options=options, executable_path='/usr/local/bin/chromedriver')
+        driver = webdriver.Chrome(options=options, executable_path='../chromedriver')
         https = [
         {
             "type": "dienthoai_thegioididong_crawl",
@@ -59,6 +67,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
         idShop = cruds.shop.getByName(db , "Thế giới di động")
         if idShop is None:
             idShop = cruds.shop.create(db , shop)
+        listDict = []
         for i in https:
             if ( i["type"] == "dienthoai_thegioididong_crawl"):
                 idCategory = cruds.category.getByName(db , "Điện thoại")
@@ -77,18 +86,16 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
             time.sleep(2)
             driver.get(i.get('url'))
             actions =  ActionChains(driver)
-            time.sleep(5)
-            while True:
-                try:
-                    conatiner = driver.find_element(By.CSS_SELECTOR , '.view-more a')
-                    actions.click(on_element=conatiner).perform()
-                    time.sleep(2)
-                except:
-                    break
+            time.sleep(3)
+            # while True:
+            #     try:
+            #         conatiner = driver.find_element(By.CSS_SELECTOR , '.view-more a')
+            #         actions.click(on_element=conatiner).perform()
+            #         time.sleep(2)
+            #     except:
+            #         break
 
             links = driver.find_elements(By.XPATH , '//ul[@class="listproduct"]/li/a[@class="main-contain"]')
-
-            listDict = []
 
             for link in links:
 
@@ -107,26 +114,26 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                     time.sleep(2)
 
                     name = driver.find_element(By.XPATH , '//section[@class = "detail "]/h1').get_attribute("textContent")
-                    print("name : ", name)
+                    # print("name : ", name)
 
                     ratting = "0.0"
                     ratting_total = None
                     
                     try:
                         ratting = driver.find_elements(By.XPATH , '//div[@class="box02"]/div/div/p[not(@class)]/i[@class="icondetail-star"]') 
-                        print("hello : ", len(ratting))
+                        # print("hello : ", len(ratting))
                     except Exception:
                         ratting = 0
                     
                     try:
                         ratting_total = driver.find_element(By.XPATH , '//div[@class="box02"]/div/div/p[@class="detail-rate-total"]').get_attribute("textContent")
-                        print("xinchao : ", ratting_total)
+                        # print("xinchao : ", ratting_total)
                     except Exception:
                         ratting_total = 0
 
                     try:
                         img = driver.find_element(By.XPATH, '//div[@class="owl-item active"]/a/img').get_attribute("src")
-                        print("hinhanh : ", img)
+                        # print("hinhanh : ", img)
                     except:
                         pass
 
@@ -145,6 +152,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                     if (lbId == None):
                         lb = Label(
                             name = nameLabel
+                            # categoryId = idCategory.id,
                             )
                         lbId = cruds.label.create( db, lb )
                     product = Product(
@@ -163,9 +171,13 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                 except Exception as e:
                     print(e)
                     print('error link: {}'.format(driver.current_url))
-            driver.close()
-            driver.switch_to.window(driver.window_handles[0])
-            actions = ActionChains(driver)
-            return custom_reponse(http_status=200 , data= listDict)
+                driver.close()
+                driver.switch_to.window(driver.window_handles[0])
+                actions = ActionChains(driver)
+        return custom_reponse(http_status=200 , data= listDict)
     except Exception as e:
-        return HTTPException(status_code=400 , detail="Crawl data FPT error")
+        return HTTPException(status_code=400 , detail="Crawl data TGDD error")
+    finally:
+        if driver != None:
+            driver.quit()
+            driver = None

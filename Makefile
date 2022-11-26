@@ -1,4 +1,3 @@
-ThuDiệu Nguyễn
 up:
 	docker-compose up -d 
 down:
