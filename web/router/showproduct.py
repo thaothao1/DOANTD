@@ -27,29 +27,38 @@ def getListData(data , id):
             price = item.price
             if "₫" in price:
                 price =  price.replace('₫', '')
+            if "đ" in price:
+                price =  price.replace('đ', '')
             if "." in price:
                 price =  price.replace('.', '')
         else:
             price = item.priceSale
             if "₫" in price:
                 price =  price.replace('₫', '')
+            if "đ" in price:
+                price =  price.replace('đ', '')
             if "." in price:
                 price =  price.replace('.', '')
     
         if id == 1:
             product =  getNameFpt(item.name)
             label = item.labelId
+            category = item.categoryId
         if id == 2:
             product = getNameTgdt(item.name)
             label = item.labelId
+            category = item.categoryId
         if id == 0 :
             product = item.name
             label = None
+            category = None
         base = {
             "id" : item.id,
             "name" : product,
             "price" : int(price),
-            "labelId" : label
+            "labelId" : label,
+            "categoryId" : category
+
         }
         rs.append(base)
     return rs
@@ -76,7 +85,7 @@ def getList(db: Session = Depends(get_db) ):
     idlazada = cruds.shop.getByName(db , "lazada")
     lazada = cruds.product.getManyDataByShopId(db , idlazada.id)
     data2 = getListData(lazada ,0)
-    idShopee = cruds.shop.getByName(db , "Shopee")
+    idShopee = cruds.shop.getByName(db , "shopee")
     shopee = cruds.product.getManyDataByShopId(db , idShopee.id)
     data3 = getListData(shopee , 0) 
     idTgdt = cruds.shop.getByName(db , "Thế giới di động")
@@ -122,6 +131,7 @@ def getList(db: Session = Depends(get_db) ):
                     lazadaId = lzd,
                     shopeeId = sp,
                     labelId = i["labelId"],
+                    categoryId = i["categoryId"],
             )
             name = cruds.showProduct.getByName(db , i["name"])
             if name is None :
@@ -162,6 +172,7 @@ def getList(db: Session = Depends(get_db) ):
                     lazadaId = lzd,
                     shopeeId = sp,
                     labelId = l["labelId"],
+                    categoryId = l["categoryId"],
             )
             name = cruds.showProduct.getByName(db , l["name"])
             if name is None :
@@ -176,3 +187,14 @@ def search(request: Request, db: Session = Depends(get_db), query: Optional[str]
     search = cruds.showProduct.search(db , query)
     return custom_reponse(http_status=200 , data= search)
     
+@app.get("/detailProduct/{id}")
+def detailProduct(request : Request , db : Session = Depends(get_db), id: int = 1):
+    data = cruds.showProduct.getById(db, id)
+    if data == None:
+        return HTTPException(status_code=400 , detail="false")
+    return custom_reponse(http_status=200 , data= data)
+
+
+
+
+

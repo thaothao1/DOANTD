@@ -22,29 +22,31 @@ from models.product import Product
 import re
 from models.category import Category
 
-
 app = APIRouter()
-# templates = Jinja2Templates(directory = "templates")
-# def getLabel(link):
-#   label = None
-#   mask = f"""https://fptshop.com.vn/dien-thoai/([^/]+)./*"""
-#   m = re.match(mask , link )
-#   if m:
-#       label = m.group(1).strip()
-#   text = label.split("-")
-#   return text[0].lower()
+
+options = webdriver.ChromeOptions()
+options.add_argument("--start-maximized")
+options.add_argument("--disable-infobars")
+options.add_argument("--no-proxy-server")
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+
+driver = None
 
 @app.get("/fptShop")
 def getListProductFPTShop(db: Session = Depends(get_db) ):
+    global driver
     try:
-        options = webdriver.ChromeOptions()
-        options.add_argument('--ignore-certificate-errors-spki-list')
-        options.add_argument('--ignore-ssl-errors')
-        caps = webdriver.DesiredCapabilities.CHROME.copy()
-        caps['acceptInsecureCerts'] = True
-        caps['acceptSslCerts'] = True
+        # options = webdriver.ChromeOptions()
+        # options.add_argument('--ignore-certificate-errors-spki-list')
+        # options.add_argument('--ignore-ssl-errors')
+        # options.add_argument("--headless")
+        # caps = webdriver.DesiredCapabilities.CHROME.copy()
+        # caps['acceptInsecureCerts'] = True
+        # caps['acceptSslCerts'] = True
+        driver = webdriver.Chrome(options=options, executable_path='/usr/local/bin/chromedriver')
 
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()) , options=options , desired_capabilities=caps)
         https = [
         {
             "type": "dienthoai",
@@ -63,8 +65,9 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
         idShop = cruds.shop.getByName(db , "fpt")
         if idShop is None:
             idShop = cruds.shop.create(db , shop)
+        base = []
         for http in https:
-            base = []
+            
             if ( http["type"] == "dienthoai"):
                 idCategory = cruds.category.getByName(db , "Điện thoại")
                 if idCategory is None:
@@ -82,17 +85,16 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
             driver.get(http.get('url'))
             actions =  ActionChains(driver)
             time.sleep(3)
-            while True:
-                try:
-                    conatiner = driver.find_element(By.CSS_SELECTOR , '.cdt-product--loadmore a')
-                    actions.click(on_element=conatiner).perform()
-                    time.sleep(1.3)
-                    # break
-                except:
-                    break
+            # while True:
+                # try:
+                #     conatiner = driver.find_element(By.CSS_SELECTOR , '.cdt-product--loadmore a')
+                #     actions.click(on_element=conatiner).perform()
+                #     time.sleep(1.3)
+                #     # break
+                # except:
+                #     break
                 
             links = driver.find_elements(By.XPATH , '//div[contains(@class , "cdt-product-wrapper")]/div[contains(@class , "cdt-product")]/div[@class="cdt-product__info"]/h3/a')
-
             for link in links:
                 check = None
                 content = link.get_attribute("textContent")
@@ -172,7 +174,8 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
                     lbId = cruds.label.getByName(db , nameLabel.lower())
                     if (lbId == None):
                         lb = Label(
-                            name = nameLabel
+                            name = nameLabel.lower(),
+                            categoryId = idCategory.id,
                         )
                         lbId = cruds.label.create( db, lb )
                     listDict = Product(
@@ -198,6 +201,7 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
         return custom_reponse(http_status=200 , data= base)
     except Exception as e:
         return HTTPException(status_code=400 , detail="Crawl data FPT error")
-
-
-
+    finally :
+        if driver != None:
+            driver.quit()
+            driver = None

@@ -11,7 +11,7 @@ from chemas.showProduct import ShowProductCreate, ShowProductUpdate
 
 class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpdate ]):
 
-    def getById(self, db: Session , idd : str )->Optional[ShowProduct]:
+    def getById(self, db: Session , id : int )->Optional[ShowProduct]:
         return db.query(ShowProduct).filter(ShowProduct.id == id).one_or_none()
 
     def getByName(self, db: Session , name : str )->Optional[ShowProduct]:
@@ -38,9 +38,9 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
     # def update(self, db: Session , districtId : int , obj_in : DistrictUpdate ):
     #     data = db.query(District).filter(District.id == districtId).one_or_none()
     def search(self , db: Session , query : str):
-        # name = db.query(ShowProduct).filter((ShowProduct.name.lower()).contains(query)).all()
+        name = db.query(ShowProduct).filter(ShowProduct.name.contains(query)).all()
         # name = db.query(ShowProduct).filter(ShowProduct.name.like('%query%'))
-        name = db.query(ShowProduct).filter(lambda ShowProduct : query.lower() in ShowProduct["name"].lower() , ShowProduct) 
+        # name = db.query(ShowProduct).filter(lambda ShowProduct : query.lower() in ShowProduct["name"].lower() , ShowProduct) 
         return name
 
     def remove(self, db: Session , id : int ):

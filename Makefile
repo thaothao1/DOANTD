@@ -1,4 +1,3 @@
-ThuDiệu Nguyễn
 up:
 	docker-compose up -d 
 down:
@@ -14,6 +13,6 @@ rmi:
 into:
 	docker exec -it web_doan_app_1 bash
 db_seed:
-	alembic revision --autogenerate -m "name 1"
+	alembic revision --autogenerate -m "add column categoryId for table Labels"
 db_up:
 	alembic upgrade head
