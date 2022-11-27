@@ -7,6 +7,7 @@ from router import thegioididong
 from router import lazada
 from router import shoppe
 from router import showproduct
+from router import api_app
 
 
 api = APIRouter()
@@ -18,3 +19,4 @@ api.include_router(category.app , prefix="/api", tags=["category"])
 api.include_router(thegioididong.app , prefix="/api/crawl", tags=["thegioididong"])
 api.include_router(shoppe.app , prefix="/api/crawl", tags=["shopee"])
 api.include_router(showproduct.app , prefix="/api" , tags=["showproduct"])
+api.include_router(api_app.app, prefix="/api", tags=["api_app"])
