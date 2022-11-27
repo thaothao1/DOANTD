@@ -58,7 +58,7 @@ class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
         return db_obj
 
     def getData(self, db : Session , skip : int = 0 , limit : int = 100):
-        return db.query(Product).offset(skip).limit(limit).all()
+        return db.query(Product).all()
 
     # def update(self, db: Session , districtId : int , obj_in : DistrictUpdate ):
     #     data = db.query(District).filter(District.id == districtId).one_or_none()
