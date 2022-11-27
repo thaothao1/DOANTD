@@ -46,8 +46,8 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
         # caps['acceptInsecureCerts'] = True
         # caps['acceptSslCerts'] = True
 
-        # driver = webdriver.Chrome(options=options, executable_path='/usr/local/bin/chromedriver')
-        driver = webdriver.Chrome(options=options, executable_path='../chromedriver')
+        driver = webdriver.Chrome(options=options, executable_path='/usr/local/bin/chromedriver')
+        # driver = webdriver.Chrome(options=options, executable_path='../chromedriver')
 
         https = [
         {
