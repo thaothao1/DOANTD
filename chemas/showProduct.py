@@ -29,9 +29,7 @@ class ShowProductCreate(ShowProductBase):
     shopeeId: int
     labelId: int
     categoryId: int
-
-
-
+    view : int
 
 class ShowProductUpdate(ShowProductBase):
     name : str

@@ -25,7 +25,9 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
             lazadaId = obj_in.lazadaId,
             fptId = obj_in.fptId,
             shopeeId = obj_in.shopeeId,
-            labelId = obj_in.labelId
+            labelId = obj_in.labelId,
+            categoryId = obj_in.categoryId,
+            view = obj_in.view
         )
         db.add(db_obj)
         db.commit()
@@ -35,8 +37,20 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
     def getData(self, db : Session , skip : int = 0 , limit : int = 100):
         return db.query(ShowProduct).offset(skip).limit(limit).all()
 
-    # def update(self, db: Session , districtId : int , obj_in : DistrictUpdate ):
-    #     data = db.query(District).filter(District.id == districtId).one_or_none()
+    def update(self, db: Session , id : int , obj_in : ShowProductUpdate ):
+        data = self.getById(db,id)
+        # data.name = obj_in.name,
+        # data.price = obj_in.price,
+        # data.thegioididongId = obj_in.thegioididongId,
+        # data.lazadaId = obj_in.lazadaId,
+        # data.fptId = obj_in.fptId,
+        # data.shopeeId = obj_in.shopeeId,
+        # data.labelId = obj_in.labelId,
+        data.view = obj_in.view
+        db.commit()
+        db.refresh(data)
+        return data
+        
     def search(self , db: Session , query : str):
         name = db.query(ShowProduct).filter(ShowProduct.name.contains(query)).all()
         # name = db.query(ShowProduct).filter(ShowProduct.name.like('%query%'))

@@ -28,3 +28,13 @@ def createProduct( body : ProductCreate , db: Session = Depends(get_db)):
 def deleteProduct( id : int, db: Session = Depends(get_db)):
     data = cruds.province.remove( db , id)
     return data
+
+
+@app.get("/randomProducts")
+def createProductRandom(db : Session= Depends(get_db)):
+    data = cruds.product.getData(db)
+    base =[]
+    base.append(data[0:2])
+    base.append(data[3:4])
+    base.append(data[5:9])
+    return custom_reponse(http_status=200 , data= base)

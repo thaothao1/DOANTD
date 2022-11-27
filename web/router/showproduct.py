@@ -173,6 +173,7 @@ def getList(db: Session = Depends(get_db) ):
                     shopeeId = sp,
                     labelId = l["labelId"],
                     categoryId = l["categoryId"],
+                    view = 100
             )
             name = cruds.showProduct.getByName(db , l["name"])
             if name is None :
@@ -192,7 +193,22 @@ def detailProduct(request : Request , db : Session = Depends(get_db), id: int = 
     data = cruds.showProduct.getById(db, id)
     if data == None:
         return HTTPException(status_code=400 , detail="false")
-    return custom_reponse(http_status=200 , data= data)
+    fpt = cruds.product.getById(db , data.fptId)
+    shop1 = cruds.shop.getById(db, fpt.shopId)
+    fpt["shop"] = shop1
+    shopee = cruds.product.getById(db , data.shopeeId)
+    shop2 =  cruds.shop.getById(db, shopee.shopId)
+    shopee["shop"] = shop2
+    thegioididong = cruds.product.getById(db , data.thegioididongId)
+    shop3 = cruds.shop.getById(db, thegioididong.shopId)
+    thegioididong["shop"] = shop3
+    lazada = cruds.product.getById(db , data.lazadaId)
+    shop4 = cruds.shop.getById(db, lazada.shopId)
+    lazada["shop"] = shop4
+    view = data.view + 1
+    base = cruds.product.update(db , id , view)
+    data["detail"] = { "data" : base ,"product1" : fpt,  "shop2" : shopee, "shop3": fpt , "shop4" : thegioididong}
+    return custom_reponse(http_status=200 ,data= data )
 
 
 
