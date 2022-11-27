@@ -18,6 +18,7 @@ class CRUDLabel(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
     def create(self, db: Session , obj_in : LabelCreate) -> Label:
         db_obj = Label( 
             name = obj_in.name,
+            categoryId = obj_in.categoryId
         )
         db.add(db_obj)
         db.commit()

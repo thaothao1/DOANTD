@@ -48,8 +48,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
         # caps = webdriver.DesiredCapabilities.CHROME.copy()
         # caps['acceptInsecureCerts'] = True
         # caps['acceptSslCerts'] = True
-        # driver = webdriver.Chrome(options=options, executable_path='/usr/local/bin/chromedriver')
-        driver = webdriver.Chrome(options=options, executable_path='../chromedriver')
+        driver = webdriver.Chrome(options=options, executable_path='/usr/local/bin/chromedriver')
         https = [
         {
             "type": "dienthoai_thegioididong_crawl",
@@ -60,6 +59,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
             "url": "https://www.thegioididong.com/laptop",
         },
         ]
+        print(len(https))
         shop = Shop(
             name = "Thế giới di động",
             link = "https://www.thegioididong.com",
@@ -69,6 +69,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
             idShop = cruds.shop.create(db , shop)
         listDict = []
         for i in https:
+            print(i)
             if ( i["type"] == "dienthoai_thegioididong_crawl"):
                 idCategory = cruds.category.getByName(db , "Điện thoại")
                 if idCategory is None:
@@ -151,8 +152,8 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                     lbId = cruds.label.getByName(db , nameLabel.lower())
                     if (lbId == None):
                         lb = Label(
-                            name = nameLabel
-                            # categoryId = idCategory.id,
+                            name = nameLabel.lower(),
+                            categoryId = idCategory.id,
                             )
                         lbId = cruds.label.create( db, lb )
                     product = Product(
