@@ -74,20 +74,20 @@ def getListShowProduct(request: Request,db: Session = Depends(get_db) , page_num
 
 
 @app.get("/allProduct")
-def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None , size : Optional[int] = None, label : Optional[str] = None , shop : Optional[str] = None , category : Optional[str] = None):
-    shopId = cruds.shop.getByName(db , shop)
+def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None , size : Optional[int] = None, label : Optional[int] = None , shop : Optional[int] = None , category : Optional[int] = None):
+    shopId = cruds.shop.getById(db , shop)
     if (shopId is not None):
         if ( category is not None):
-            categoryId = cruds.category.getByName(db , category)
+            categoryId = cruds.category.getById(db , category)
             if (label is not None):
-                Label = cruds.label.getByName(db , label)
+                Label = cruds.label.getById(db , label)
                 product = cruds.product.getProductByShopAndLabelAndCategory(db ,shopId.id , Label.id , categoryId.id )
             else:
                 label = None
                 product = cruds.product.getProductByShopAndCategory(db , shopId.id , categoryId.id)
         else:
             if (label is not None):
-                Label = cruds.label.getByName(db , label)
+                Label = cruds.label.getById(db , label)
                 product = cruds.product.getProductByShopAndLabel(db ,shopId.id , Label.id)
             else:
                 label = None
@@ -95,16 +95,16 @@ def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None ,
 
     else:
         if ( category is not None):
-            categoryId = cruds.category.getByName(db , category)
+            categoryId = cruds.category.getById(db , category)
             if (label is not None):
-                Label = cruds.label.getByName(db , label)
+                Label = cruds.label.getById(db , label)
                 product = cruds.product.getProductByCategoryAndLabel(db,Label.id , categoryId.id )
             else:
                 label = None
                 product = cruds.product.getProductByCategory(db , categoryId.id)
         else:
             if (label is not None):
-                Label = cruds.label.getByName(db , label)
+                Label = cruds.label.getById(db , label)
                 product = cruds.product.getProductByLabel(db , Label.id)
             else:
                 label = None
@@ -112,3 +112,22 @@ def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None ,
 
     return custom_reponse(http_status=200 , data= { "shop" : shopId , "product" : paginate(product,page,size)})
 
+
+@app.get("/allShowProduct")
+def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None , size : Optional[int] = None, label : Optional[int] = None , category : Optional[int] = None):
+    if ( category is not None):
+        categoryId = cruds.category.getById(db , category)
+        if (label is not None):
+            Label = cruds.label.getById(db , label)
+            product = cruds.showProduct.getProductByShopAndLabelAndCategory(db , Label.id , categoryId.id )
+        else:
+            label = None
+            product = cruds.showProduct.getProductByShopAndCategory(db , categoryId.id)
+    else:
+        if (label is not None):
+            Label = cruds.label.getById(db , label)
+            product = cruds.showProduct.getProductByShopAndLabel(db , Label.id)
+        else:
+            label = None
+            product = cruds.showProduct.getData()
+    return custom_reponse(http_status=200 , data= { "data" : paginate(product,page, size )})
