@@ -9,6 +9,7 @@ from router import shoppe
 from router import showproduct
 from router import product
 from router import api_app
+from router import shop
 
 api = APIRouter()
 
@@ -21,3 +22,4 @@ api.include_router(shoppe.app , prefix="/api/crawl", tags=["shopee"])
 api.include_router(showproduct.app , prefix="/api" , tags=["showproduct"])
 api.include_router(product.app , prefix="/api" , tags=["product"])
 api.include_router(api_app.app , prefix="/api" , tags=["api"])
+api.include_router(shop.app , prefix="/api" , tags=["shop"])

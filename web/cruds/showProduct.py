@@ -31,10 +31,10 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
     def getProductByShopAndLabel(self, db : Session , labelId : int ):
         return db.query(ShowProduct).filter( ShowProduct.labelId == labelId).all()
 
-    def getProductByShopAndCategory(self, db : Session , shop : int , category : int):
+    def getProductByShopAndCategory(self, db : Session , category : int):
         return db.query(ShowProduct).filter(ShowProduct.categoryId == category).all()
 
-    def getProductByShopAndLabelAndCategory(self , db :Session , shop: int , label : int , category : int):
+    def getProductByShopAndLabelAndCategory(self , db :Session , label : int , category : int):
         return  db.query(ShowProduct).filter(ShowProduct.labelId == label , ShowProduct.categoryId == category).all()
 
     def getProductByCategoryAndLabel(self, db: Session , category : int , label: int):
@@ -57,7 +57,7 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
         db.refresh(db_obj)
         return db_obj
 
-    def getData(self, db : Session , skip : int = 0 , limit : int = 100):
+    def getData(self, db : Session):
         return db.query(ShowProduct).all()
 
     def update(self, db: Session , id : int , obj_in : ShowProductUpdate ):
