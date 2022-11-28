@@ -133,6 +133,7 @@ def getList(db: Session = Depends(get_db) ):
                     shopeeId = sp,
                     labelId = i["labelId"],
                     categoryId = i["categoryId"],
+                    view = 100
             )
             name = cruds.showProduct.getByName(db , i["name"])
             if name is None :
