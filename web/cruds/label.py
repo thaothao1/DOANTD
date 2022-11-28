@@ -9,11 +9,14 @@ from fastapi.encoders import jsonable_encoder
 
 class CRUDLabel(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
 
-    def getById(self, db: Session , id : str )->Optional[Label]:
+    def getById(self, db: Session , id : int )->Optional[Label]:
         return db.query(Label).filter(Label.id == id).one_or_none()
 
     def getByName(self, db: Session , name : str )->Optional[Label]:
         return db.query(Label).filter(Label.name == name).one_or_none()
+
+    def getByCate(self, db: Session , id : int )->Optional[Label]:
+        return db.query(Label).filter(Label.categoryId == id).all()
 
     def create(self, db: Session , obj_in : LabelCreate) -> Label:
         db_obj = Label( 
@@ -25,8 +28,8 @@ class CRUDLabel(CRUDBase[ Label , LabelCreate , LabelUpdate ]):
         db.refresh(db_obj)
         return db_obj
 
-    def getData(self, db : Session , skip : int = 0 , limit : int = 100):
-        return db.query(Label).offset(skip).limit(limit).all()
+    def getData(self, db : Session ):
+        return db.query(Label).all()
 
     def update(self, db: Session , id : int , obj_in : LabelUpdate) -> Label:
         data = self.getById(db , id)

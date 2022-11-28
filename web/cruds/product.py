@@ -10,9 +10,10 @@ import cruds
 
 class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
 
-    def getById(self, db: Session , id : str )->Optional[Product]:
-        return db.query(Product).filter(Product.id == id).one_or_none()
-
+    def getById(self, db: Session , id : int )->Optional[Product]:
+        data = db.query(Product).filter(Product.id == id).one_or_none()
+        return data
+        
     def getByName(self, db: Session , name : str )->Optional[Product]:
         return db.query(Product).filter(Product.name == name).one_or_none()
 

@@ -7,6 +7,7 @@ from re import template
 from fastapi import APIRouter , Request , Depends ,HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from chemas.showProduct import ShowProductCreate , ShowProductUpdate
 from models.showProduct import ShowProduct
 from router.utils import custom_reponse
 from sqlalchemy.orm import Session
@@ -189,28 +190,37 @@ def search(request: Request, db: Session = Depends(get_db), query: Optional[str]
     return custom_reponse(http_status=200 , data= search)
     
 @app.get("/detailProduct/{id}")
-def detailProduct(request : Request , db : Session = Depends(get_db), id: int = 1):
+def detailProduct(request : Request, db : Session = Depends(get_db), id : int = 1):
+    shop1 = None
+    shop2 = None
+    shop3 = None
+    shop4 = None
     data = cruds.showProduct.getById(db, id)
     if data == None:
         return HTTPException(status_code=400 , detail="false")
-    fpt = cruds.product.getById(db , data.fptId)
-    shop1 = cruds.shop.getById(db, fpt.shopId)
-    fpt["shop"] = shop1
-    shopee = cruds.product.getById(db , data.shopeeId)
-    shop2 =  cruds.shop.getById(db, shopee.shopId)
-    shopee["shop"] = shop2
-    thegioididong = cruds.product.getById(db , data.thegioididongId)
-    shop3 = cruds.shop.getById(db, thegioididong.shopId)
-    thegioididong["shop"] = shop3
-    lazada = cruds.product.getById(db , data.lazadaId)
-    shop4 = cruds.shop.getById(db, lazada.shopId)
-    lazada["shop"] = shop4
-    view = data.view + 1
-    base = cruds.product.update(db , id , view)
-    data["detail"] = { "data" : base ,"product1" : fpt,  "shop2" : shopee, "shop3": fpt , "shop4" : thegioididong}
-    return custom_reponse(http_status=200 ,data= data )
+    data.view = data.view + 1
+    base = cruds.showProduct.update(db , id , data)
+    fpt = cruds.product.getById(db, base.fptId)
+    if fpt is not None:
+        shop1 = cruds.shop.getById(db, fpt.shopId)
+    shopee = cruds.product.getById(db , base.shopeeId)
+    if shopee is not None:
+        shop2 =  cruds.shop.getById(db, shopee.shopId)
+    thegioididong =  cruds.product.getById(db , base.thegioididongId)
+    if thegioididong is not None:
+        shop3 = cruds.shop.getById(db, thegioididong.shopId)
+    lazada = cruds.product.getById(db , base.lazadaId)
+    if lazada is not None:
+        shop4 = cruds.shop.getById(db, lazada.shopId)
+    return custom_reponse(http_status=200 ,data = { "data": data, "product1": fpt, "shop1": shop1, "product2": shopee, "shop2": shop2, "product3": thegioididong , "shop3": shop3 , "product4": lazada, "shop4": shop4})
 
 
-
+@app.put("/showProduct/{id}")
+def updateLabel(body : ShowProductCreate , id : int , db : Session = Depends(get_db)):
+    print(body)
+    data = cruds.showProduct.update(db ,id, body)
+    if data == None:
+        return HTTPException(status_code=400 , detail="false")
+    return custom_reponse(http_status=200 , data= data)
 
 
