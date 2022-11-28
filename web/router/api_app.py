@@ -117,6 +117,7 @@ def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None ,
 def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None , size : Optional[int] = None, label : Optional[int] = None , category : Optional[int] = None):
     if ( category is not None):
         categoryId = cruds.category.getById(db , category)
+        print(categoryId)
         if (label is not None):
             Label = cruds.label.getById(db , label)
             product = cruds.showProduct.getProductByShopAndLabelAndCategory(db , Label.id , categoryId.id )
@@ -129,5 +130,5 @@ def getAllProduct(db: Session = Depends(get_db)  , page : Optional[int] = None ,
             product = cruds.showProduct.getProductByShopAndLabel(db , Label.id)
         else:
             label = None
-            product = cruds.showProduct.getData()
+            product = cruds.showProduct.getData(db)
     return custom_reponse(http_status=200 , data= { "data" : paginate(product,page, size )})
