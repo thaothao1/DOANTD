@@ -9,11 +9,14 @@ from fastapi.encoders import jsonable_encoder
 
 class CRUDCategory(CRUDBase[ Category , CategoryCreate , CategoryUpdate]):
 
-    def getById(self, db: Session , id : str)->Optional[Category]:
+    def getById(self, db: Session , id : int)->Optional[Category]:
         return db.query(Category).filter(Category.id == id).one_or_none()
 
     def getByName(self, db: Session , name : str )-> Optional[Category]:
         return db.query(Category).filter(Category.name == name).one_or_none()
+
+    def getdata(self, db : Session)-> Optional[Category]:
+        return db.query(Category).all()
 
     def create(self, db: Session , obj_in : CategoryCreate)-> Category:
         db_obj = Category(

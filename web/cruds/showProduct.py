@@ -12,7 +12,8 @@ from chemas.showProduct import ShowProductCreate, ShowProductUpdate
 class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpdate ]):
 
     def getById(self, db: Session , id : int )->Optional[ShowProduct]:
-        return db.query(ShowProduct).filter(ShowProduct.id == id).one_or_none()
+        data= db.query(ShowProduct).filter(ShowProduct.id == id).first()
+        return data
 
     def getByName(self, db: Session , name : str )->Optional[ShowProduct]:
         return db.query(ShowProduct).filter(ShowProduct.name == name).one_or_none()
@@ -35,17 +36,18 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
         return db_obj
 
     def getData(self, db : Session , skip : int = 0 , limit : int = 100):
-        return db.query(ShowProduct).offset(skip).limit(limit).all()
+        return db.query(ShowProduct).all()
 
     def update(self, db: Session , id : int , obj_in : ShowProductUpdate ):
+        print(obj_in)
         data = self.getById(db,id)
-        # data.name = obj_in.name,
-        # data.price = obj_in.price,
-        # data.thegioididongId = obj_in.thegioididongId,
-        # data.lazadaId = obj_in.lazadaId,
-        # data.fptId = obj_in.fptId,
-        # data.shopeeId = obj_in.shopeeId,
-        # data.labelId = obj_in.labelId,
+        data.name = obj_in.name,
+        data.price = obj_in.price,
+        data.thegioididongId = obj_in.thegioididongId,
+        data.lazadaId = obj_in.lazadaId,
+        data.fptId = obj_in.fptId,
+        data.shopeeId = obj_in.shopeeId,
+        data.labelId = obj_in.labelId,
         data.view = obj_in.view
         db.commit()
         db.refresh(data)
@@ -53,8 +55,8 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
         
     def search(self , db: Session , query : str):
         name = db.query(ShowProduct).filter(ShowProduct.name.contains(query)).all()
-        # name = db.query(ShowProduct).filter(ShowProduct.name.like('%query%'))
-        # name = db.query(ShowProduct).filter(lambda ShowProduct : query.lower() in ShowProduct["name"].lower() , ShowProduct) 
+        # name = db.query(ShowProduct).filter(ShowProduct.name.like('%{query}%')).all()
+        # # name = db.query(ShowProduct).filter(lambda ShowPro.lower() , ShowProduct) 
         return name
 
     def remove(self, db: Session , id : int ):

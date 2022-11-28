@@ -1,4 +1,5 @@
 from re import template
+from typing import Optional
 from fastapi import APIRouter , Request , Depends ,HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -14,11 +15,20 @@ app = APIRouter()
 # templates = Jinja2Templates(directory = "templates")
 
 @app.get("/label")
-def get_list_label(skip: int  = 0, limit: int = 100 , db : Session = Depends(get_db)):
-    data = cruds.label.getById(db,skip,limit)
+def get_list_label(db : Session = Depends(get_db)):
+    data = cruds.label.getData(db)
     if data == None:
         return HTTPException(status_code=400 , detail="false")
     return custom_reponse(http_status=200 , data= data)
+
+@app.get("/LabelByCategory")
+def get_label_by_category(db: Session = Depends(get_db) , id : Optional[int] = None):
+    cate = cruds.category.getById(db , id)
+    if cate == None:
+        return HTTPException(status_code=400 , detail="false")
+    else:
+        cate.label = cruds.label.getByCate(db ,id)
+        return custom_reponse(http_status=200 , data= cate)    
 
 @app.post("/label")
 def createLabel( body : LabelCreate , db: Session = Depends(get_db)):
