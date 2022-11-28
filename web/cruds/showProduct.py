@@ -18,6 +18,28 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
     def getByName(self, db: Session , name : str )->Optional[ShowProduct]:
         return db.query(ShowProduct).filter(ShowProduct.name == name).one_or_none()
 
+    
+    def getProduct(self, db: Session , id : int )->Optional[ShowProduct]:
+        return db.query(ShowProduct).filter(ShowProduct.id == id).one_or_none()
+
+    def getProductByLabel(self, db: Session , label : int ) -> Optional[ShowProduct]:
+        return db.query(ShowProduct).filter(ShowProduct.labelId == label).all()
+
+    def getProductByCategory(self, db: Session , category : int)-> Optional[ShowProduct]:
+        return db.query(ShowProduct).filter(ShowProduct.categoryId == category).all()
+
+    def getProductByShopAndLabel(self, db : Session , labelId : int ):
+        return db.query(ShowProduct).filter( ShowProduct.labelId == labelId).all()
+
+    def getProductByShopAndCategory(self, db : Session , shop : int , category : int):
+        return db.query(ShowProduct).filter(ShowProduct.categoryId == category).all()
+
+    def getProductByShopAndLabelAndCategory(self , db :Session , shop: int , label : int , category : int):
+        return  db.query(ShowProduct).filter(ShowProduct.labelId == label , ShowProduct.categoryId == category).all()
+
+    def getProductByCategoryAndLabel(self, db: Session , category : int , label: int):
+        return db.query(ShowProduct).filter(ShowProduct.categoryId == category , ShowProduct.labelId == label).all()
+
     def create(self, db: Session , obj_in : ShowProductCreate ) -> ShowProduct:
         db_obj = ShowProduct(
             name = obj_in.name,
