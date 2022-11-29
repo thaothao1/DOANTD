@@ -45,18 +45,22 @@ def getListData(data , id):
             product =  getNameFpt(item.name)
             label = item.labelId
             category = item.categoryId
+            image = item.image
         if id == 2:
             product = getNameTgdt(item.name)
             label = item.labelId
             category = item.categoryId
+            image = item.image
         if id == 0 :
             product = item.name
             label = None
             category = None
+            image = item.image
         base = {
             "id" : item.id,
             "name" : product,
             "price" : int(price),
+            "image" : image,
             "labelId" : label,
             "categoryId" : category
 
@@ -128,6 +132,7 @@ def getList(db: Session = Depends(get_db) ):
                     name = i["name"],
                     price = str(min),
                     thegioididongId =tgdd,
+                    image = i["image"],
                     fptId = i["id"],
                     lazadaId = lzd,
                     shopeeId = sp,
@@ -169,6 +174,7 @@ def getList(db: Session = Depends(get_db) ):
             show = ShowProduct(
                     name = l["name"],
                     price = str(min),
+                    image = l["image"],
                     thegioididongId = l["id"],
                     fptId = fs,
                     lazadaId = lzd,
