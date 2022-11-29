@@ -44,6 +44,7 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
         db_obj = ShowProduct(
             name = obj_in.name,
             price = obj_in.price,
+            image = obj_in.image,
             thegioididongId = obj_in.thegioididongId,
             lazadaId = obj_in.lazadaId,
             fptId = obj_in.fptId,
@@ -61,10 +62,10 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
         return db.query(ShowProduct).all()
 
     def update(self, db: Session , id : int , obj_in : ShowProductUpdate ):
-        print(obj_in)
         data = self.getById(db,id)
         data.name = obj_in.name,
         data.price = obj_in.price,
+        data.image = obj_in.image,
         data.thegioididongId = obj_in.thegioididongId,
         data.lazadaId = obj_in.lazadaId,
         data.fptId = obj_in.fptId,

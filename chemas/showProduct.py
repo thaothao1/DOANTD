@@ -34,6 +34,7 @@ class ShowProductCreate(ShowProductBase):
 class ShowProductUpdate(ShowProductBase):
     name : str
     price : str
+    image: str
     thegioididongId: int
     lazadaId: int
     fptId: int

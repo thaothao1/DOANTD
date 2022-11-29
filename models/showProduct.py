@@ -7,6 +7,7 @@ class ShowProduct(Base ,TimestampMixin):
     id = Column(Integer , primary_key = True , index = True , autoincrement = True)
     name = Column(String(200) , unique = True )
     price = Column(String(200))
+    image = Column(String(1200))
     thegioididongId = Column(Integer() , ForeignKey("products.id") , nullable= True)
     lazadaId = Column(Integer() , ForeignKey("products.id"), nullable= True)
     fptId = Column(Integer() , ForeignKey("products.id"), nullable= True)
