@@ -30,6 +30,8 @@ def getListData(data , id):
                 price =  price.replace('₫', '')
             if "đ" in price:
                 price =  price.replace('đ', '')
+            if ".0" in price[-3:-1]:
+                price = price[0: price.length - 1]
             if "." in price:
                 price =  price.replace('.', '')
         else:
@@ -38,9 +40,11 @@ def getListData(data , id):
                 price =  price.replace('₫', '')
             if "đ" in price:
                 price =  price.replace('đ', '')
+            if ".0" in price[-3:-1]:
+                price = price[0: price.length - 1]
             if "." in price:
                 price =  price.replace('.', '')
-    
+        print("viettttttttttttttttttttt", price)
         if id == 1:
             product =  getNameFpt(item.name)
             label = item.labelId
@@ -56,6 +60,7 @@ def getListData(data , id):
             label = None
             category = None
             image = item.image
+            # price = price[0: price.length()-1]
         base = {
             "id" : item.id,
             "name" : product,
@@ -63,7 +68,6 @@ def getListData(data , id):
             "image" : image,
             "labelId" : label,
             "categoryId" : category
-
         }
         rs.append(base)
     return rs

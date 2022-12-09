@@ -77,7 +77,11 @@ def getListProductLazada(db: Session = Depends(get_db) ):
                         shopId = idShop.id,
                         categoryId = idCategory.id,     
                     )
-                    cruds.product.create(db , product)
+                    data_name = cruds.product.getByName(db , name)
+                    if ( data_name != None):
+                        cruds.product.update(db , data_name.id , product)
+                    else:
+                        cruds.product.create(db , product)
                     list_data.append(product)
         return custom_reponse(http_status=200 , data= list_data)
     except Exception as e:
