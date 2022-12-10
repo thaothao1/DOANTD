@@ -30,6 +30,8 @@ def getListData(data , id):
                 price =  price.replace('₫', '')
             if "đ" in price:
                 price =  price.replace('đ', '')
+            if ".0" in price[-3:-1]:
+                price = price[0: price.length - 1]
             if "." in price:
                 price =  price.replace('.', '')
         else:
@@ -38,28 +40,34 @@ def getListData(data , id):
                 price =  price.replace('₫', '')
             if "đ" in price:
                 price =  price.replace('đ', '')
+            if ".0" in price[-3:-1]:
+                price = price[0: price.length - 1]
             if "." in price:
                 price =  price.replace('.', '')
-    
+        print("viettttttttttttttttttttt", price)
         if id == 1:
             product =  getNameFpt(item.name)
             label = item.labelId
             category = item.categoryId
+            image = item.image
         if id == 2:
             product = getNameTgdt(item.name)
             label = item.labelId
             category = item.categoryId
+            image = item.image
         if id == 0 :
             product = item.name
             label = None
             category = None
+            image = item.image
+            # price = price[0: price.length()-1]
         base = {
             "id" : item.id,
             "name" : product,
             "price" : int(price),
+            "image" : image,
             "labelId" : label,
             "categoryId" : category
-
         }
         rs.append(base)
     return rs
@@ -128,11 +136,13 @@ def getList(db: Session = Depends(get_db) ):
                     name = i["name"],
                     price = str(min),
                     thegioididongId =tgdd,
+                    image = i["image"],
                     fptId = i["id"],
                     lazadaId = lzd,
                     shopeeId = sp,
                     labelId = i["labelId"],
                     categoryId = i["categoryId"],
+                    view = 100
             )
             name = cruds.showProduct.getByName(db , i["name"])
             if name is None :
@@ -168,6 +178,7 @@ def getList(db: Session = Depends(get_db) ):
             show = ShowProduct(
                     name = l["name"],
                     price = str(min),
+                    image = l["image"],
                     thegioididongId = l["id"],
                     fptId = fs,
                     lazadaId = lzd,

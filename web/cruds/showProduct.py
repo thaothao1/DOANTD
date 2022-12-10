@@ -18,10 +18,33 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
     def getByName(self, db: Session , name : str )->Optional[ShowProduct]:
         return db.query(ShowProduct).filter(ShowProduct.name == name).one_or_none()
 
+    
+    def getProduct(self, db: Session , id : int )->Optional[ShowProduct]:
+        return db.query(ShowProduct).filter(ShowProduct.id == id).one_or_none()
+
+    def getProductByLabel(self, db: Session , label : int ) -> Optional[ShowProduct]:
+        return db.query(ShowProduct).filter(ShowProduct.labelId == label).all()
+
+    def getProductByCategory(self, db: Session , category : int)-> Optional[ShowProduct]:
+        return db.query(ShowProduct).filter(ShowProduct.categoryId == category).all()
+
+    def getProductByShopAndLabel(self, db : Session , labelId : int ):
+        return db.query(ShowProduct).filter( ShowProduct.labelId == labelId).all()
+
+    def getProductByShopAndCategory(self, db : Session , category : int):
+        return db.query(ShowProduct).filter(ShowProduct.categoryId == category).all()
+
+    def getProductByShopAndLabelAndCategory(self , db :Session , label : int , category : int):
+        return  db.query(ShowProduct).filter(ShowProduct.labelId == label , ShowProduct.categoryId == category).all()
+
+    def getProductByCategoryAndLabel(self, db: Session , category : int , label: int):
+        return db.query(ShowProduct).filter(ShowProduct.categoryId == category , ShowProduct.labelId == label).all()
+
     def create(self, db: Session , obj_in : ShowProductCreate ) -> ShowProduct:
         db_obj = ShowProduct(
             name = obj_in.name,
             price = obj_in.price,
+            image = obj_in.image,
             thegioididongId = obj_in.thegioididongId,
             lazadaId = obj_in.lazadaId,
             fptId = obj_in.fptId,
@@ -35,14 +58,14 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
         db.refresh(db_obj)
         return db_obj
 
-    def getData(self, db : Session , skip : int = 0 , limit : int = 100):
+    def getData(self, db : Session):
         return db.query(ShowProduct).all()
 
     def update(self, db: Session , id : int , obj_in : ShowProductUpdate ):
-        print(obj_in)
         data = self.getById(db,id)
         data.name = obj_in.name,
         data.price = obj_in.price,
+        data.image = obj_in.image,
         data.thegioididongId = obj_in.thegioididongId,
         data.lazadaId = obj_in.lazadaId,
         data.fptId = obj_in.fptId,
