@@ -19,7 +19,6 @@ from models.product import Product
 
 app = APIRouter()
 # templates = Jinja2Templates(directory = "templates")
-# thao
 
 def getListData(data , id):
     rs = []
@@ -44,7 +43,6 @@ def getListData(data , id):
                 price = price[0: price.length - 1]
             if "." in price:
                 price =  price.replace('.', '')
-        print("viettttttttttttttttttttt", price)
         if id == 1:
             product =  getNameFpt(item.name)
             label = item.labelId
