@@ -162,7 +162,7 @@ def search( db: Session = Depends(get_db)):
     keys = ["điện thoại" , "laptop"]
     list = []
     for key in keys:
-        for i in range(0,2) :   
+        for i in range(0,5) :   
             url = "https://shopee.vn/api/v4/search/search_items?by=relevancy&keyword={}&newest={}&limit=60".format(key, i*60)
             list += getProducts(url , key , db)
     return list

@@ -88,13 +88,13 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
             driver.get(i.get('url'))
             actions =  ActionChains(driver)
             time.sleep(3)
-            # while True:
-            #     try:
-            #         conatiner = driver.find_element(By.CSS_SELECTOR , '.view-more a')
-            #         actions.click(on_element=conatiner).perform()
-            #         time.sleep(2)
-            #     except:
-            #         break
+            while True:
+                try:
+                    conatiner = driver.find_element(By.CSS_SELECTOR , '.view-more a')
+                    actions.click(on_element=conatiner).perform()
+                    time.sleep(2)
+                except:
+                    break
 
             links = driver.find_elements(By.XPATH , '//ul[@class="listproduct"]/li/a[@class="main-contain"]')
 
