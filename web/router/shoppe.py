@@ -119,7 +119,7 @@ def info_items(data ,key , db):
         rating = tmp['item_rating']['rating_star']
         link ="https://shopee.vn/product/{}/{}".format(tmp['shopid'], tmp['itemid'])
         listDict = Product(
-            name = str(name),
+            name = str(name.strip()),
             link = str(link),
             image = str(image),
             priceSale = str(price_min),
@@ -131,10 +131,10 @@ def info_items(data ,key , db):
         )
         data_name = None
         try:
-            data_name = cruds.product.getByName(db , name)
+            data_name = cruds.product.getByName(db , listDict.name)
         except Exception as e:
             return name
-        if ( data_name != None):
+        if (data_name != None):
             cruds.product.update(db , data_name.id , listDict)
         else:
             cruds.product.create(db , listDict)

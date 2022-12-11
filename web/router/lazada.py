@@ -52,7 +52,7 @@ def getListProductLazada(db: Session = Depends(get_db) ):
                             name = "Laptop"
                         )
                         idCategory = cruds.category.create(db , data)
-                for i in range(1,2) : 
+                for i in range(1,5) : 
                     url='https://www.lazada.vn/{}/?ajax=true&clickTrackInfo=94ab4ef5-9f79-4ca5-8773-58354cec4a2c__4518__272060244__static__0.09941919720767887__299225__7253&from=hp_categories&isFirstRequest=true&item_id=272060244&page={}&spm=a2o4n.home.categories.2.190565cbzJ6HXP&up_id=272060244&version=v2'.format(label, i)
                     response = requests.get(url, headers=headers_dict)
                     data = json.loads(response.text)
@@ -67,7 +67,7 @@ def getListProductLazada(db: Session = Depends(get_db) ):
                         price = item.get('originalPriceShow' , item['priceShow'])
                         ratingScore =  item['ratingScore']    
                         product = Product(
-                            name = str(name),
+                            name = str(name.strip()),
                             link = str(link),
                             image = str(image),
                             price = str(price),
@@ -79,10 +79,10 @@ def getListProductLazada(db: Session = Depends(get_db) ):
                         )
                         data_name = None
                         try:
-                            data_name = cruds.product.getByName(db , name)
+                            data_name = cruds.product.getByName(db , product.name)
                         except Exception as e:
                             return name
-                        if ( data_name != None):
+                        if (data_name != None):
                             cruds.product.update(db , data_name.id , product)
                         else:
                             cruds.product.create(db , product)
