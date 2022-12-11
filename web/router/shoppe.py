@@ -130,11 +130,15 @@ def info_items(data ,key , db):
             categoryId = idCategory.id,
             shopId= idShop.id
         )
-        # data_name = cruds.product.getByName(db , name)
-        # if ( data_name != None):
-        #     cruds.product.update(db , data_name.id , listDict)
-        # else:
-        cruds.product.create(db , listDict)
+        data_name = None
+        try:
+            data_name = cruds.product.getByName(db , name)
+        except Exception as e:
+            return name
+        if ( data_name != None):
+            cruds.product.update(db , data_name.id , listDict)
+        else:
+            cruds.product.create(db , listDict)
         list_item.append(listDict)
     return list_item
 

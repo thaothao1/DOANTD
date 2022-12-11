@@ -61,9 +61,21 @@ class CRUDProduct(CRUDBase[ Product , ProductCreate , ProductUpdate ]):
     def getData(self, db : Session , skip : int = 0 , limit : int = 100):
         return db.query(Product).all()
 
-    # def update(self, db: Session , districtId : int , obj_in : DistrictUpdate ):
-    #     data = db.query(District).filter(District.id == districtId).one_or_none()
-     
+    def update(self, db: Session , Id : int , obj_in : ProductUpdate ):
+        data = self.getById(db , Id)
+        data.name = obj_in.name
+        data.link = obj_in.link
+        data.image = obj_in.image
+        data.price = obj_in.price
+        data.priceSale = obj_in.priceSale
+        data.rating = obj_in.rating
+        data.shopId = obj_in.shopId
+        data.labelId = obj_in.labelId
+        data.categoryId = obj_in.categoryId
+        db.commit()
+        db.refresh(data)
+        return data
+        
     def remove(self, db: Session , productId : int ):
         data = db.query(Product).filter(Product.id == productId ).one_or_none()
         data.delete()
