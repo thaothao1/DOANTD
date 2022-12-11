@@ -192,7 +192,7 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
                         categoryId = idCategory.id
                     )
                     data_name = cruds.product.getByName(db , name.strip())
-                    if ( data_name != None):
+                    if ( data_name != None and data_name.shopId == idShop.id):
                         cruds.product.update(db , data_name.id , listDict)
                     else:
                         cruds.product.create(db , listDict)

@@ -168,7 +168,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                         categoryId = idCategory.id
                 )
                     data_name = cruds.product.getByName(db , name)
-                    if ( data_name != None):
+                    if ( data_name != None and data_name.shopId == idShop.id):
                         cruds.product.update(db , data_name.id , product )
                     else:
                         cruds.product.create(db , listDict)
