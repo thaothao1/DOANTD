@@ -59,7 +59,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
             "url": "https://www.thegioididong.com/laptop",
         },
         ]
-        
+        print(len(https))
         shop = Shop(
             name = "Thế giới di động",
             link = "https://www.thegioididong.com",
@@ -67,7 +67,6 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
         idShop = cruds.shop.getByName(db , "Thế giới di động")
         if idShop is None:
             idShop = cruds.shop.create(db , shop)
-
         listDict = []
         for i in https:
             print(i)
@@ -96,7 +95,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                     time.sleep(2)
                 except:
                     break
-            
+
             links = driver.find_elements(By.XPATH , '//ul[@class="listproduct"]/li/a[@class="main-contain"]')
 
             for link in links:
@@ -109,7 +108,6 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                     label = link.get_attribute("data-brand")
                 except:
                     label = ""
-                
 
                 try:
                     driver.switch_to.window(driver.window_handles[-1])
@@ -178,7 +176,6 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                 except Exception as e:
                     print(e)
                     print('error link: {}'.format(driver.current_url))
-                    return 3333
                 driver.close()
                 driver.switch_to.window(driver.window_handles[0])
                 actions = ActionChains(driver)

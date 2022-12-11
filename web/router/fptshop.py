@@ -191,11 +191,11 @@ def getListProductFPTShop(db: Session = Depends(get_db) ):
                         shopId = idShop.id,
                         categoryId = idCategory.id
                     )
-                    # data_name = cruds.product.getByName(db , name.strip())
-                    # if ( data_name != None):
-                    #     cruds.product.update(db , data_name.id , listDict)
-                    # else:
-                    cruds.product.create(db , listDict)
+                    data_name = cruds.product.getByName(db , name.strip())
+                    if ( data_name != None):
+                        cruds.product.update(db , data_name.id , listDict)
+                    else:
+                        cruds.product.create(db , listDict)
                     base.append(listDict)
                 except Exception as e:
                     print(e)

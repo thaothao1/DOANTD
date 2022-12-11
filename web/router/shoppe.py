@@ -24,10 +24,10 @@ from seleniumwire import webdriver
 app = APIRouter()
 # templates = Jinja2Templates(directory = "templates")
 
-dat_global = 'AAcyLjUuMC0yAAABhQAhKFIAAAzVAnAAAAAAAAAAAuvlR3weVVU60ykHUkkzSmQs+0sol/82EyfDx/bVRcPaaRvYm+PHtYZVLa9mEth0/Y6J5T2dwRhbFrjS00z52l8KbfavDGItKTK1eC80VyIMhKDXTll/KU1IWYq3J5cA0fg3DRr5ucxzA6P+HlxI8a0e0EITl/82EyfDx/bVRcPaaRvYm5eD3UHik0uRdNnuj4TimMs/8S1z1zP9AjeXZLkGYgPtUEkJLoWNR3Y5qPiVz5AkhX+He32Lxkvyc3NMF4HNnbxhAkujzghUnCa4Ta8/Zbci0Ab14qbCPm6nRU3AmUISmQ/5r0PT2xQnVi0F5o4pzQ4H/QSea5pczzIHNVQ0HNs+lySktY1KEY1FNUfm2LmMAS63v/aYivfSpAgFmNnbMYpUYmXmiyQlSVNEnxuXUS8lnUwcw8qmPqeTefoJ2YFmSPap+xOCy0qf6FceYCNc1JRGrbfJWuRYlFp+J0tcUk6v6ek4yxPbB0sT8oSqMAcIpEcN2aoQquR/Fv/7bIqlDWlCAWpI74qOTHTYmWbxwU1eTxcIwQ5gQLv4U+cgQTKitRgLefJo2nTgkqnSRiTJY3JUYmXmiyQlSVNEnxuXUS8lChiMFapSpb7hT3RbbjSWoIvRiKwQcI+tZF/gbCRv7zjE5v0pM36kj1Rj5HE4yTJxhSAhU4gKl/Ayxh0Fmb3M2PfI2f/dNbaWMImE4xhf9sQi1WQ1xtbLsuTyPytM95ipAkJkdlfknt7NF44LQBkvEgltCKSMs3BbcdDy1I14/JTOkeK/RVSQQoUnZnyKrNBJTksvy2OisBRQx/hbSF0/6WoyGBhfDCD6n91ozk1ZQE4='
-cookie_global = '_gcl_au=1.1.477035483.1668435919; _med=refer; SPC_F=9VWV6QyoIxdxaRADBYrKL8VJgWxedtRM; REC_T_ID=2a3323e5-6428-11ed-af4f-9440c93e1538; SPC_R_T_ID=aznHzn4wYdBE+ZnfwkDj1LsRU5MMEGYPa2uY3Y4Ul7bFF2AT0bHBQFazyAW3HGjLbYOMSL+3ck+1j0r1Wcm6RvnlaJOU2gIHXG/ms6EaL17u93qxGdFM5nfEPGGXD6GnLhYiVQMaGHZxGEk9dwIitc8/qTJyXl5uduEjfbcMiyU=; SPC_R_T_IV=b2w2ajNxZ3JwS1A2UzBVWg==; SPC_T_ID=aznHzn4wYdBE+ZnfwkDj1LsRU5MMEGYPa2uY3Y4Ul7bFF2AT0bHBQFazyAW3HGjLbYOMSL+3ck+1j0r1Wcm6RvnlaJOU2gIHXG/ms6EaL17u93qxGdFM5nfEPGGXD6GnLhYiVQMaGHZxGEk9dwIitc8/qTJyXl5uduEjfbcMiyU=; SPC_T_IV=b2w2ajNxZ3JwS1A2UzBVWg==; _fbp=fb.1.1668435919003.1861778103; _hjSessionUser_868286=eyJpZCI6IjAyNGNjYjk3LTI2ZjAtNWU4Ni1hYzRlLTk5MjljZjk1ZmQ2MCIsImNyZWF0ZWQiOjE2Njg0MzU5MjEzNjYsImV4aXN0aW5nIjp0cnVlfQ==; __LOCALE__null=VN; SPC_SI=Hrh0YwAAAABFVmFsR2JBZvcD9wIAAAAATnpmRjFjSFE=; csrftoken=5MOPzN4zABWiGVX6MTaxC30EKffEVcYy; _QPWSDCXHZQA=29548cca-6006-4670-9d9c-916216e1e676; AMP_TOKEN=%24NOT_FOUND; _gid=GA1.2.564796872.1670744385; cto_bundle=8ybP-F9tJTJCcGhsdWRUbzBTUXdOWFRGZjRlYWpaR04ydHhkaXh1UFZ4aFolMkJiNTY1Q2lPdFh4WG9YaVJFbGRxSUxTZ3FzSiUyRnFvWnpWQktacCUyRjh5czB3MyUyRnBJUGRTdWJERFowOVhUaFhwU1YwTTZpMFFCb1Y5QThKRnd0JTJGTzRFdTYlMkZLQk1pViUyQnpDYktraFk3a3Y4RU54aVMlMkJHV3clM0QlM0Q; _hjIncludedInSessionSample=0; _hjSession_868286=eyJpZCI6IjljYzczMDFiLWM3OGItNGVmOC05MmZmLTY2YmEyMjcxZmM2ZCIsImNyZWF0ZWQiOjE2NzA3NDQ0Mzk4MzksImluU2FtcGxlIjpmYWxzZX0=; _ga_M32T05RVZT=GS1.1.1670744384.6.1.1670744451.53.0.0; _ga=GA1.1.440289248.1668435920; _dc_gtm_UA-61914164-6=1; shopee_webUnique_ccd=Iba7WFSbUKqMG5BpIC83lw%3D%3D%7CAaw%2F6sIu2%2BoY76NUY6MW%2BXzAmwnKUK9glmeGWtU9h1aLd80CQw1xP2ZVnTpMCysPN%2BKmpJyjGx%2BW47nZCLHHy3mWmvnj19tzZls%3D%7CGpzzjZgaBwrBnWhY%7C06%7C3; ds=f9c50b3acf1a17ff30fc6a2272f402a4'
-csrftoken_global = '5MOPzN4zABWiGVX6MTaxC30EKffEVcYy'
-token_global = "Iba7WFSbUKqMG5BpIC83lw==|Aaw/6sIu2+oY76NUY6MW+XzAmwnKUK9glmeGWtU9h1aLd80CQw1xP2ZVnTpMCysPN+KmpJyjGx+W47nZCLHHy3mWmvnj19tzZls=|GpzzjZgaBwrBnWhY|06|3"
+dat_global = 'AAcyLjQuMS0zAAABhGH3FisAAAuiAlQAAAAAAAAAAAvjwIoWke4CGaJeKojpPMg/k/BnGH0dFr4BNqSRFEryKlpQoLPyGTqmXqL5F/8SvcTp8K6TCnpSZk1H9ceC295JHXrjVKy54uYqF/6KFSsRJsilt8Bl4VIIFFyt8ulG8UJIxlZGjuvBxpCGq/7Ekqct2WHRhYqwgcI+TgqizPqXvcUXZVbatanxNH0gKodDr23p0E7FOEJgWHqhRCLDJkB0UgDz+xhpe28iS3zrEtxrnqOCipnpmbrVxCJ6Cg53vZNG5GgQ+HsLteH6eVU3KBRO6TUWVKy54uYqF/6KFSsRJsilty2PWF1vp9y2imn+N+uBHgJlZE4aTD1D9NGmgVGpNOedNmTzAjP0z5Y7go/IS4xzxfxG68JIz1kdG26cjkgr0D/EglVWpAH3+ml9dBD0jOKcOP6C4Ahz5YvdrXhxvkF6PYTxL1Bi/QaV/bDhRzMirZgFMCqxEWTAuop9aZVNrRIzkWOzjLDykZY2dhCO2aemlvehiJf6OllW/EgYrZ8LIcB86KbMmVCtE8FeOCCu7uHzmmlMQ+JYTMHF6kF68iRD85aWYi9ro3Wl9b3oSySuEOpGWi6bh4+hmc4vyZj9m+PseobDmMRSuHW9TbiqXtBy0VUbmoSJfPFuNtApXssr4XpNH7fWRaE+gIIn10yHpYNCruOapZZuvoxvu1S2cxD/MlDLSBK1N1b3pekmIH1xIUbeQ2UuGVKCVt7Br0arRDenkWOzjLDykZY2dhCO2aemlr74btV9We2J/wW0zAc9hKKoXKVRqTvHq9RpN69TGYZLZEstVv2FuMYqHMCSS4LSPg=='
+cookie_global = 'REC_T_ID=4b55f218-509b-11eb-965c-48df37dd9770; SPC_IA=-1; SPC_F=Su2xj6KcWdbtzIsAPiNk6UXLbuGoMv5b; REC_T_ID=4b5b69c6-509b-11eb-8e1f-b49691844b7c; G_ENABLED_IDPS=google; SPC_CLIENTID=U3UyeGo2S2NXZGJ0ujafepwfxvfkbyoj; SPC_U=-; SPC_EC=-; SPC_T_IV="4o8JMhoYAlW5aSw1HiKsPg=="; SPC_T_ID="Yw9LwfWRg4LqO1bh+J+5rmoe8ZBgNBMb+NpzXPArU+4THtAt11t9bZOMuCQtQyvFNq5p2ppcsbJViUxRxkEwf2uKMrPyAGETRuKHZRjwaOM="; SPC_T_ID=Yw9LwfWRg4LqO1bh+J+5rmoe8ZBgNBMb+NpzXPArU+4THtAt11t9bZOMuCQtQyvFNq5p2ppcsbJViUxRxkEwf2uKMrPyAGETRuKHZRjwaOM=; SPC_T_IV=4o8JMhoYAlW5aSw1HiKsPg==; _gcl_au=1.1.905702711.1661437059; SPC_R_T_ID=Yw9LwfWRg4LqO1bh+J+5rmoe8ZBgNBMb+NpzXPArU+4THtAt11t9bZOMuCQtQyvFNq5p2ppcsbJViUxRxkEwf2uKMrPyAGETRuKHZRjwaOM=; SPC_R_T_IV=4o8JMhoYAlW5aSw1HiKsPg==; _gcl_aw=GCL.1667314202.CjwKCAjwh4ObBhAzEiwAHzZYU_mx4LeM5f8_cKeCDcKGmI0hlsWNNqs734r5IWLfnpet5Xxc4m3XLxoC5gEQAvD_BwE; _med=refer; SPC_SI=ijtfYwAAAAA3R0ZCZ3QwSVENUQAAAAAAck1EWU1ySEc=; __LOCALE__null=VN; csrftoken=Lv1tyg94efZpqCRB3pJsfNBrVsnL0Eve; _QPWSDCXHZQA=a8df8611-0481-471f-86db-6a5017ab4d0d; shopee_webUnique_ccd=bcr%2Bs%2Bcs%2Bts35egIKazAsg%3D%3D%7CmECYNL7j3im2WEQjrNMOcLjnU7oqOrdptDUcM%2F8VAwy%2FWRd55374g3J%2FmWbf5U%2BBs2pcyUREq2PHfcMrqJ7pbmiYkLU8k1phCjJj%7Cr2U%2BXJAqdtLdGBNO%7C06%7C3; ds=a18e4aab8e5a738f4279acb11b2d342c'
+csrftoken_global = 'Lv1tyg94efZpqCRB3pJsfNBrVsnL0Eve'
+token_global = "bcr+s+cs+ts35egIKazAsg==|mECYNL7j3im2WEQjrNMOcLjnU7oqOrdptDUcM/8VAwy/WRd55374g3J/mWbf5U+Bs2pcyUREq2PHfcMrqJ7pbmiYkLU8k1phCjJj|r2U+XJAqdtLdGBNO|06|3"
 options = {
     "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
 }
@@ -94,7 +94,6 @@ def info_items(data ,key , db):
     idShop = cruds.shop.getByName(db , "shopee")
     if idShop is None:
         idShop = cruds.shop.create(db , shop)
-
     idCategory = None
     if ( key == "điện thoại"):
         idCategory = cruds.category.getByName(db , "Điện thoại")
@@ -103,7 +102,6 @@ def info_items(data ,key , db):
                 name = "Điện thoại"
             )
             idCategory = cruds.category.create(db , data)      
-
     if ( key == "laptop"):
         idCategory = cruds.category.getByName(db , "Laptop")
         if idCategory is None:
@@ -111,6 +109,7 @@ def info_items(data ,key , db):
                 name = "Laptop"
             )
             idCategory = cruds.category.create(db , data) 
+
     for item in items:
         tmp = item['item_basic']
         name =  tmp['name']
