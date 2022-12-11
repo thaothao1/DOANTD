@@ -171,7 +171,7 @@ def getListProductShoppe(db: Session = Depends(get_db) ):
                     if ( data_name != None):
                         cruds.product.update(db , data_name.id , product )
                     else:
-                        cruds.product.create(db , listDict)
+                        cruds.product.create(db , product)
                     listDict.append(product)
                 except Exception as e:
                     print(e)

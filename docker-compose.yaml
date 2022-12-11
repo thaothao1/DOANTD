@@ -9,7 +9,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
     volumes:
-      - table-data:/var/lib/postgres/data
+      - table-data:/var/lib/postgresql/data
   app:
     build: .
     working_dir: /web/web
