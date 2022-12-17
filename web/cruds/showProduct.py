@@ -81,6 +81,10 @@ class CRUDShowProduct(CRUDBase[ ShowProduct , ShowProductCreate , ShowProductUpd
         # name = db.query(ShowProduct).filter(ShowProduct.name.like('%{query}%')).all()
         # # name = db.query(ShowProduct).filter(lambda ShowPro.lower() , ShowProduct) 
         return name
+    
+    def searchCategory(self , db: Session , query : str, categoryID: int):
+        name = db.query(ShowProduct).filter(ShowProduct.name.contains(query), ShowProduct.categoryId == categoryID).all()
+        return name
 
     def remove(self, db: Session , id : int ):
         data = db.query(ShowProduct).filter(ShowProduct.id == id ).one_or_none()
