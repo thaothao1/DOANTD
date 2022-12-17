@@ -197,6 +197,14 @@ def getList(db: Session = Depends(get_db) ):
 def search(request: Request, db: Session = Depends(get_db), query: Optional[str] = None):
     search = cruds.showProduct.search(db , query)
     return custom_reponse(http_status=200 , data= search)
+
+@app.get("/searchCategory")
+def searchCategory(request: Request, db: Session = Depends(get_db), query: Optional[str] = None, categoryId: Optional[int] = None):
+    if categoryId == None:
+        return search(db, query)
+    else:
+        search_category = cruds.showProduct.searchCategory(db, query, categoryId)
+        return custom_reponse(http_status=200 , data=search_category)
     
 @app.get("/detailProduct/{id}")
 def detailProduct(request : Request, db : Session = Depends(get_db), id : int = 1):
