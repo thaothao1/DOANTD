@@ -201,7 +201,7 @@ def search(request: Request, db: Session = Depends(get_db), query: Optional[str]
 @app.get("/searchCategory")
 def searchCategory(request: Request, db: Session = Depends(get_db), query: Optional[str] = None, categoryId: Optional[int] = None):
     if categoryId == None:
-        return search(db, query)
+        return cruds.showProduct.search(db, query)
     else:
         search_category = cruds.showProduct.searchCategory(db, query, categoryId)
         return custom_reponse(http_status=200 , data=search_category)
