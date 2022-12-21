@@ -77,7 +77,7 @@ def getName(nameOne , nameTwo):
     for i in range(len(shopTwo)):
         if shopTwo[i] in shopOne:
             count+=1
-    if (count >= shopOne.length-2):
+    if (count >= len(shopOne)-2):
         return True
     else:
         return False

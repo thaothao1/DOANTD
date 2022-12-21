@@ -128,7 +128,7 @@ def info_items(data ,key , db):
                 nameLabel.append(getLabel[i].name)
                 idlabel.append(getLabel[i].id)
         for i in range(len(nameLabel)):
-            print (nameLabel[i])
+            # print (nameLabel[i])
             if nameLabel[i].lower() in name.lower():
                 labelId = idlabel[i]
                 listDict = Product(
