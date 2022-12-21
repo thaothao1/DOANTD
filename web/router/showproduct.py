@@ -55,8 +55,8 @@ def getListData(data , id):
             image = item.image
         if id == 0 :
             product = item.name
-            label = None
-            category = None
+            label = item.labelId
+            category = item.categoryId
             image = item.image
             # price = price[0: price.length()-1]
         base = {
