@@ -23,8 +23,8 @@ app = APIRouter()
 def getListData(data , id):
     rs = []
     for item in data:
-        if ( item.price != "Không giảm"):
-            price = item.price
+        if ( item.priceSale != "Không giảm"):
+            price = item.priceSale
             if "₫" in price:
                 price =  price.replace('₫', '')
             if "đ" in price:
@@ -44,12 +44,12 @@ def getListData(data , id):
             if "." in price:
                 price =  price.replace('.', '')
         if id == 1:
-            product =  getNameFpt(item.name)
+            product = item.name
             label = item.labelId
             category = item.categoryId
             image = item.image
         if id == 2:
-            product = getNameTgdt(item.name)
+            product = item.name
             label = item.labelId
             category = item.categoryId
             image = item.image
@@ -70,63 +70,70 @@ def getListData(data , id):
         rs.append(base)
     return rs
 
-def getNameFpt(name):
-    names = name.split(' ')
-    product = ""
-    for i in range(len(names)-1):
-        product += names[i] + " "  
-    return product
+def getName(nameOne , nameTwo):
+    shopOne = nameOne.split(' ')
+    shopTwo = nameTwo.split(' ')
+    count = 0
+    for i in range(len(shopTwo)):
+        if shopTwo[i] in shopOne:
+            count+=1
+    if (count >= shopOne.length-2):
+        return True
+    else:
+        return False
 
-def getNameTgdt(name):
-    names = name.split(' ')
-    product = ""
-    for i in range(2,len(names)-1):
-        product += names[i] + " "  
-    return product
 
 @app.get("/showProduct")
 def getList(db: Session = Depends(get_db) ):
     idFpt = cruds.shop.getByName(db , "fpt")
     fpt = cruds.product.getManyDataByShopId(db , idFpt.id)
-    data1 = getListData(fpt , 1 )
+    dataFpt = getListData(fpt , 1 )
     idlazada = cruds.shop.getByName(db , "lazada")
     lazada = cruds.product.getManyDataByShopId(db , idlazada.id)
-    data2 = getListData(lazada ,0)
+    dataLazada = getListData(lazada ,0)
     idShopee = cruds.shop.getByName(db , "shopee")
     shopee = cruds.product.getManyDataByShopId(db , idShopee.id)
-    data3 = getListData(shopee , 0) 
+    dataShopee = getListData(shopee , 0) 
     idTgdt = cruds.shop.getByName(db , "Thế giới di động")
     thegioididong = cruds.product.getManyDataByShopId(db , idTgdt.id)
-    data4 = getListData(thegioididong , 2)
-    print("data1" ,data1)
-    print("data2" ,data2)
-    print("data3" ,data3)
-    print("data4" ,data4)
-
+    dataTgdd = getListData(thegioididong , 2)
+    base = []
+    base.extend(dataFpt)
+    base.extend(dataLazada)
+    base.extend(dataShopee)
+    base.extend(dataTgdd)
+    with open('../../data.json', 'w' , encoding='utf-8') as f:
+        json.dump(base, f, indent=2 , ensure_ascii= False)  
     rs = []
-    for i in data1:
+    for i in dataFpt:
         min = i["price"]
-        for j in data2:
+        for j in dataLazada:
             lzd = None
-            if i["name"] in j["name"]:
-                lzd = j["id"]
-                if min > j["price"] :
-                    min = j["price"]
-                break
-        for k in data3:
+            if ( i["labelId"] == j["labelId"]):
+                checkName = getName(i["name"] , j["name"])
+                if checkName == True:
+                    lzd = j["id"]
+                    if min > j["price"] :
+                        min = j["price"]
+                    break
+        for k in dataShopee:
             sp= None
-            if i["name"] in k["name"]:
-                sp = k["id"]
-                if min > k["price"] :
-                    min = k["price"]
-                break
-        for m in data4: 
+            if ( i["labelId"] == k["labelId"]):
+                checkName = getName(i["name"] , k["name"])
+                if checkName == True:
+                    sp = k["id"]
+                    if min > k["price"] :
+                        min = k["price"]
+                    break
+        for m in dataTgdd: 
             tgdd = None
-            if i["name"] in m["name"]:
-                tgdd = m["id"]
-                if min > m["price"] :
-                    min = m["price"]
-                break
+            if ( i["labelId"] == m["labelId"]):
+                checkName = getName(i["name"] , m["name"])
+                if checkName == True:
+                    tgdd = m["id"]
+                    if min > m["price"] :
+                        min = m["price"]
+                    break
         if ( tgdd == None and lzd == None and  sp == None):
             continue
         else:
@@ -140,36 +147,42 @@ def getList(db: Session = Depends(get_db) ):
                     shopeeId = sp,
                     labelId = i["labelId"],
                     categoryId = i["categoryId"],
-                    view = 100
+                    view = 0
             )
             name = cruds.showProduct.getByName(db , i["name"])
             if name is None :
                 base = cruds.showProduct.create(db ,show)
                 rs.append(base)
         
-    for l in data4:
+    for l in dataTgdd:
         min = l["price"]
-        for j in data2:
+        for j in dataLazada:
             lzd = None
-            if l["name"] in j["name"]:
-                lzd = j["id"]
-                if min > j["price"] :
-                    min = j["price"]
-                break
-        for k in data3:
+            if ( l["labelId"] == j["labelId"]):
+                checkName = getName(l["name"] , j["name"])
+                if checkName == True:
+                    lzd = j["id"]
+                    if min > j["price"] :
+                        min = j["price"]
+                    break
+        for k in dataShopee:
             sp= None
-            if l["name"] in k["name"]:
-                sp = k["id"]
-                if min > k["price"] :
-                    min = k["price"]
-                break
-        for m in data1: 
+            if ( l["labelId"] == k["labelId"]):
+                checkName = getName(l["name"] , k["name"])
+                if checkName == True:
+                    sp = k["id"]
+                    if min > k["price"] :
+                        min = k["price"]
+                    break
+        for m in dataFpt: 
             fs = None
-            if l["name"] in m["name"]:
-                fs = m["id"]
-                if min > m["price"] :
-                    min = m["price"]
-                break
+            if ( l["labelId"] == m["labelId"]):
+                checkName = getName(l["name"] , m["name"])
+                if checkName == True:
+                    fs = m["id"]
+                    if min > m["price"] :
+                        min = m["price"]
+                    break
         if ( fs == None and lzd == None and  sp == None):
             continue
         else:
